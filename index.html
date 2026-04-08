@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>2026 巴拿馬、墨西哥與加州 家庭之旅</title>
+    
+    <style>
+        :root {
+            /* 時尚拉美風配色 (Modern Latin Aesthetic) */
+            --bg-color: #F7F4EF;       /* 灰泥白 (Plaster) */
+            --primary: #2D2A26;        /* 深炭黑 */
+            --accent-terra: #C05C42;   /* 現代陶土紅 (Terracotta) */
+            --accent-agave: #4C6A5A;   /* 龍舌蘭綠 (Agave Green) */
+            --line-color: #E2DCD0;     /* 暖沙色線條 */
+            --card-bg: #FFFFFF;        /* 純白卡片 */
+            --text-sub: #7A756C;
+            --ticket-bg: #F8F3E6;      /* 清淡優雅的奶油沙色 */
+            --ticket-text: #6B5B3E;    /* 登機證柔和深色字 */
+        }
+
+        body {
+            font-family: "Optima", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 80px; 
+        }
+
+        /* 頁首 */
+        header {
+            background-color: var(--accent-agave);
+            padding: 25px 20px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(76, 106, 90, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        header h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            color: #FFFFFF;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 日期選擇器 */
+        .day-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+        
+        .day-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .day-tab.active {
+            background-color: var(--accent-terra);
+            color: #FFFFFF;
+            border-color: var(--accent-terra);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(192, 92, 66, 0.3);
+        }
+
+        /* 主體容器 */
+        .main-view {
+            display: none; 
+            animation: fadeIn 0.4s ease;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 25px 20px;
+        }
+
+        .main-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------------- 行程頁面樣式 ---------------- */
+        .day-view {
+            display: none;
+        }
+
+        .day-view.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        h2.section-title {
+            font-size: 1.5rem;
+            color: var(--accent-terra);
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--line-color);
+            padding-bottom: 15px;
+        }
+
+        /* 每日行程地圖區塊 */
+        .daily-summary-section {
+            background-color: var(--card-bg);
+            border-radius: 16px; 
+            padding: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .map-iframe-container {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .map-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .btn-full-map {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            color: var(--primary);
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .btn-full-map::before {
+            content: '🗺️';
+            margin-right: 8px;
+        }
+
+        .timeline {
+            border-left: 1px solid var(--line-color);
+            padding-left: 30px;
+            margin-left: 10px;
+        }
+
+        .timeline details {
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .timeline details::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--accent-terra);
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .timeline details[open]::before {
+            background-color: var(--accent-terra);
+            box-shadow: 0 0 0 4px rgba(192, 92, 66, 0.1);
+        }
+
+        summary {
+            font-size: 1.05rem;
+            color: var(--primary);
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            outline: none;
+        }
+        
+        summary::-webkit-details-marker { display: none; }
+
+        .time {
+            display: block;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .event-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+
+        .event-title::after {
+            content: '+';
+            font-size: 1.3rem;
+            color: var(--text-sub);
+            font-weight: 300;
+        }
+
+        .timeline details[open] .event-title::after { content: '−'; color: var(--accent-agave); }
+        .timeline details[open] .event-title { color: var(--accent-agave); }
+
+        .details-content { padding-top: 15px; padding-bottom: 5px; }
+        .details-content p { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.7; }
+        
+        .note {
+            background-color: #F0EBE1;
+            color: var(--accent-agave);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        /* 景點單點地圖按鈕 */
+        .btn-spot-map {
+            display: inline-flex;
+            align-items: center;
+            background-color: transparent;
+            color: var(--accent-agave);
+            border: 1px solid var(--accent-agave);
+            padding: 6px 12px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-spot-map:hover {
+            background-color: var(--accent-agave);
+            color: #fff;
+        }
+
+        .btn-spot-map::before {
+            content: '📍';
+            margin-right: 4px;
+        }
+
+        /* 一般行程圖片 (拉美高挑拱門造型) */
+        .attraction-img {
+            width: 100%;
+            height: 360px; 
+            border-radius: 150px 150px 12px 12px; 
+            margin-bottom: 18px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        /* 重點景點圖卡 (正方形 + 白色框底 + 導覽文字) */
+        .spot-card {
+            background-color: #FFFFFF;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid rgba(0,0,0,0.02);
+            text-align: left;
+        }
+
+        .spot-img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* 完美正方形 */
+            object-fit: cover;
+            border-radius: 8px; /* 微圓角契合外框 */
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .spot-title {
+            font-size: 1.15rem;
+            color: var(--accent-terra);
+            margin: 0 0 8px 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .spot-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0 0 15px 0;
+            line-height: 1.6;
+        }
+
+        /* ---------------- 機票頁面樣式 (Boarding Pass) ---------------- */
+        
+        .flight-category {
+            margin-bottom: 20px;
+        }
+        
+        .flight-category summary {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-terra);
+            padding: 15px 5px;
+            border-bottom: 2px solid var(--line-color);
+            margin-bottom: 20px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .flight-category summary::after {
+            content: '−';
+            font-weight: 300;
+            font-size: 1.5rem;
+            color: var(--accent-terra);
+        }
+        
+        .flight-category:not([open]) summary::after {
+            content: '+';
+        }
+
+        .flight-ticket {
+            background: var(--ticket-bg);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
+            color: var(--ticket-text);
+        }
+
+        /* 模擬機票撕線：半圓形挖洞 */
+        .flight-ticket::before, .flight-ticket::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.03); 
+            z-index: 2;
+        }
+        .flight-ticket::before { left: -13px; }
+        .flight-ticket::after { right: -13px; }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed rgba(107, 91, 62, 0.2);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .ticket-header span.tag {
+            background-color: rgba(255,255,255,0.6);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--accent-agave);
+        }
+
+        .ticket-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 15px;
+        }
+
+        .port { text-align: center; }
+        .port h2 { margin: 0; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; color: var(--primary); }
+        .port p { margin: 0; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
+
+        /* 飛機圖示改為俐落箭頭 */
+        .flight-icon { 
+            font-size: 1.5rem; 
+            color: var(--accent-terra); 
+            font-weight: 300;
+        }
+
+        .ticket-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+        }
+
+        .time-block span { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; font-weight: 600;}
+        .time-block strong { display: block; font-size: 1.1rem; margin-top: 2px; color: var(--primary); }
+
+        .btn-track {
+            background-color: var(--accent-agave);
+            color: #FFFFFF;
+            padding: 10px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
+        }
+        
+        .btn-track:hover {
+            opacity: 0.85;
+        }
+
+        /* ---------------- 住宿頁面樣式 ---------------- */
+        .accom-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .accom-img {
+            width: 100%;
+            height: 320px;
+            border-radius: 150px 150px 12px 12px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .accom-dates {
+            display: inline-block;
+            background-color: var(--bg-color);
+            color: var(--accent-terra);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid var(--line-color);
+        }
+
+        .accom-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 10px 0;
+        }
+
+        .accom-desc {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .accom-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-accom {
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-airbnb { background-color: var(--accent-terra); color: white; }
+        .btn-map { background-color: var(--bg-color); color: var(--primary); border: 1px solid var(--line-color); }
+
+        /* ---------------- 底部導航列 (Bottom Nav) ---------------- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--line-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            z-index: 1000;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.03);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 33%;
+        }
+
+        /* 簡約 SVG 圖示 */
+        .nav-icon { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease; 
+        }
+        
+        .nav-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        .nav-item.active { color: var(--accent-agave); }
+        .nav-item.active .nav-icon { transform: translateY(-3px); }
+
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <h1 id="header-title">Family Trip 2026</h1>
+        <div class="day-nav" id="navBar">
+            <button class="day-tab active" onclick="showDay('day-17', this)">7/17</button>
+            <button class="day-tab" onclick="showDay('day-18', this)">7/18</button>
+            <button class="day-tab" onclick="showDay('day-19', this)">7/19</button>
+            <button class="day-tab" onclick="showDay('day-20', this)">7/20</button>
+            <button class="day-tab" onclick="showDay('day-21', this)">7/21</button>
+            <button class="day-tab" onclick="showDay('day-22', this)">7/22</button>
+            <button class="day-tab" onclick="showDay('day-23', this)">7/23</button>
+            <button class="day-tab" onclick="showDay('day-24', this)">7/24</button>
+            <button class="day-tab" onclick="showDay('day-25', this)">7/25</button>
+            <button class="day-tab" onclick="showDay('day-26', this)">7/26</button>
+            <button class="day-tab" onclick="showDay('day-27', this)">7/27</button>
+            <button class="day-tab" onclick="showDay('day-28', this)">7/28</button>
+            <button class="day-tab" onclick="showDay('day-29', this)">7/29</button>
+            <button class="day-tab" onclick="showDay('day-30', this)">7/30</button>
+            <button class="day-tab" onclick="showDay('day-31', this)">7/31</button>
+            <button class="day-tab" onclick="showDay('day-01', this)">8/1</button>
+            <button class="day-tab" onclick="showDay('day-02', this)">8/2</button>
+        </div>
+    </header>
+
+    <div id="view-itinerary" class="main-view active">
+        
+        <div id="day-17" class="day-view active">
+            <h2 class="section-title">7/17 (五) ｜ 分別啟程</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">20:16 - 05:35 (+1)</span>
+                        <div class="event-title">爸媽前往巴拿馬</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘巴拿馬航空 (CM409)，由舊金山飛往巴拿馬。詳細航班資訊請見下方「機票」分頁。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map" target="_blank">舊金山機場 (SFO)</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">23:40 - 20:35</span>
+                        <div class="event-title">奇叮前往舊金山</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘長榮航空 (BR28)，由台北飛往舊金山。詳細航班資訊請見下方「機票」分頁。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map" target="_blank">桃園機場 (TPE)</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-18" class="day-view">
+            <h2 class="section-title">7/18 (六) ｜ 巴拿馬會合</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Panama+City+Panama&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+Tocumen/Panama+City/Multiplaza+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">05:35 - 08:00</span>
+                        <div class="event-title">爸媽抵達巴拿馬</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>抵達後先至民宿辦理 check-in 與休息，適應時差。詳細住宿資訊請見「住宿」分頁。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hilton+Panama" class="btn-spot-map" target="_blank">巴拿馬市區民宿</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">01:12 - 10:27</span>
+                        <div class="event-title">奇叮飛往巴拿馬</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘長榮航空 (BR3181)，由舊金山飛往巴拿馬。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map" target="_blank">巴拿馬機場 (PTY)</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">12:00 - 14:00</span>
+                        <div class="event-title">民宿會合與午餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>全家於民宿順利會合！在附近輕鬆吃個午餐。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">16:30 - 20:00</span>
+                        <div class="event-title">購物中心逛街與晚餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>傍晚前往當地的 Mall (Multiplaza) 逛逛，並享用晚餐。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map" target="_blank">Multiplaza Panamá</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-19" class="day-view">
+            <h2 class="section-title">7/19 (日) ｜ 世紀工程</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Miraflores+Locks+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Panama+City/Miraflores+Visitor+Center+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 15:00</span>
+                        <div class="event-title">巴拿馬運河一日遊</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" alt="巴拿馬運河" class="attraction-img">
+                        <p>來到巴拿馬必訪的世紀工程！可選擇在 Miraflores 觀景台近距離欣賞巨輪過閘門，或是選擇搭船親自航行巴拿馬運河南段（約需 6 小時）。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Miraflores+Visitor+Center+Panama" class="btn-spot-map" target="_blank">Miraflores 觀景台</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-20" class="day-view">
+            <h2 class="section-title">7/20 (一) ｜ 辦理重要事務</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Plaza+Edison+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Ministerio+De+Comercio+E+Industrias,+Panama/Banesco+Calle+50,+Panama/Multiplaza+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="note">✅ 今日安排隨行口譯協助</div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 12:00</span>
+                        <div class="event-title">辦理永居卡</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Ministerio+De+Comercio+E+Industrias+Panama" class="btn-spot-map" target="_blank">永居卡辦理處</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">14:00 - 16:00</span>
+                        <div class="event-title">銀行開戶</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>前往 Banesco Xperience (Calle 50 分行) 辦理開戶事宜。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Banesco+Calle+50+Panama" class="btn-spot-map" target="_blank">Banesco 銀行</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">17:00 - 20:00</span>
+                        <div class="event-title">Multiplaza 逛街與晚餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>順利完成辦理事項後，於商場放鬆休息享用晚餐。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map" target="_blank">Multiplaza Panamá</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-21" class="day-view">
+            <h2 class="section-title">7/21 (二) ｜ 辦理身分證與看房</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Costa+del+Este+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Electoral+Tribunal+of+Panama/Financial+Park+Panama/Town+Center+Costa+del+Este+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="note">✅ 今日安排隨行口譯協助</div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 12:00</span>
+                        <div class="event-title">辦理身分證</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>前往 Electoral Tribunal of Panama 辦理手續。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tribunal+Electoral+Panama" class="btn-spot-map" target="_blank">身分證辦理處</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">14:00 - 16:30</span>
+                        <div class="event-title">參觀房產與午餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>前往 Financial Park 了解當地房地產，並在附近享用午餐。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Financial+Park+Costa+del+Este" class="btn-spot-map" target="_blank">Financial Park</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">17:00 - 20:00</span>
+                        <div class="event-title">Town Center 逛街</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>傍晚前往 Costa del Este 新城區的商場閒逛與晚餐。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Town+Center+Costa+del+Este" class="btn-spot-map" target="_blank">Town Center</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-22" class="day-view">
+            <h2 class="section-title">7/22 (三) ｜ 預留彈性與老城</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Casco+Viejo+Panama&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Panama+City/Casco+Viejo+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 17:00</span>
+                        <div class="event-title">彈性時間與老城區觀光</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區" alt="巴拿馬老城區" class="attraction-img">
+                        <p>全天預留為辦理未完事務的彈性時間。若提早結束，可至充滿殖民色彩的老城區 (Casco Viejo) 與老城堡漫步觀光。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map" target="_blank">巴拿馬老城區</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-23" class="day-view">
+            <h2 class="section-title">7/23 (四) ｜ 飛往墨西哥城</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Zocalo+Mexico+City&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+la+Ciudad+de+Mexico/Sheraton+Maria+Isabel+Hotel/Zocalo+Mexico+City/Palacio+de+Bellas+Artes+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">06:00 - 06:30</span>
+                        <div class="event-title">出發前往機場</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>06:00 退房，06:30 抵達巴拿馬機場。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map" target="_blank">巴拿馬機場 (PTY)</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">09:25 - 12:10</span>
+                        <div class="event-title">飛往墨西哥城 (MEX)</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘巴拿馬航空 (CM120) 飛往墨西哥城。航班資訊請見「機票」頁面。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map" target="_blank">墨西哥城機場 (MEX)</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">14:00 - 14:30</span>
+                        <div class="event-title">飯店寄放行李</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>抵達 Sheraton María Isabel Hotel 寄放行李。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map" target="_blank">Sheraton 飯店</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">14:30 - 19:30</span>
+                        <div class="event-title">城區歷史巡禮</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>探索墨西哥城的心臟地帶，感受強烈的文化脈動。</p>
+                        
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=憲法廣場" alt="憲法廣場" class="spot-img">
+                            <h4 class="spot-title">憲法廣場 (Zócalo)</h4>
+                            <p class="spot-desc">墨西哥城的心臟，亦是世界最大廣場之一，周圍環繞著見證歷史更迭的重要建築。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Zocalo+Mexico+City" class="btn-spot-map" target="_blank">憲法廣場</a>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=大主教堂" alt="大主教堂" class="spot-img">
+                            <h4 class="spot-title">大主教堂</h4>
+                            <p class="spot-desc">拉丁美洲最大和最古老的主教座堂，耗時近三百年建成，融合了多種建築風格。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Metropolitan+Cathedral+Mexico+City" class="btn-spot-map" target="_blank">大主教堂</a>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=郵政宮" alt="郵政宮" class="spot-img">
+                            <h4 class="spot-title">郵政宮 (Palacio Postal)</h4>
+                            <p class="spot-desc">被譽為世界最美的郵局，擁有華麗的青銅雕花樓梯與精緻的大理石裝飾，極具復古奢華感。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Palacio+Postal+Mexico+City" class="btn-spot-map" target="_blank">郵政宮</a>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=藝術宮" alt="藝術宮" class="spot-img">
+                            <h4 class="spot-title">藝術宮 (Palacio de Bellas Artes)</h4>
+                            <p class="spot-desc">展現墨西哥精緻藝術與壁畫的最高殿堂，外觀為華麗的新古典主義與新藝術風格。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Palacio+de+Bellas+Artes+Mexico+City" class="btn-spot-map" target="_blank">藝術宮</a>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-24" class="day-view">
+            <h2 class="section-title">7/24 (五) ｜ 霍奇米爾科與藝術</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Coyoacan+Mexico+City&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Xochimilco/Museo+Dolores+Olmedo/Coyoacán+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 11:30</span>
+                        <div class="event-title">霍奇米爾科遊船</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=霍奇米爾科遊船" alt="霍奇米爾科" class="attraction-img">
+                        <p>搭乘被稱為 Trajinera 的鮮豔木船，穿梭於世界遺產霍奇米爾科的水上花園水道中，感受熱鬧的音樂與氣氛。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Xochimilco+Mexico+City" class="btn-spot-map" target="_blank">霍奇米爾科</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">12:00 - 13:00</span>
+                        <div class="event-title">午餐時間</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>於景點附近享用午餐。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">13:00 - 15:30</span>
+                        <div class="event-title">奧爾梅多博物館</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=奧爾梅多博物館" alt="奧爾梅多博物館" class="attraction-img">
+                        <p>館內收藏了大量著名藝術家 (如 Frida Kahlo) 的作品，庭院中還能看見孔雀與無毛犬漫步。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Museo+Dolores+Olmedo" class="btn-spot-map" target="_blank">奧爾梅多博物館</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">16:00 - 19:00</span>
+                        <div class="event-title">Coyoacán 城區漫步</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Coyoacán城區" alt="Coyoacán" class="attraction-img">
+                        <p>漫步於充滿文藝氣息的科約阿坎區，這裡有美麗的百年建築、市集與咖啡館，晚餐也在此享用。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Coyoacan+Mexico+City" class="btn-spot-map" target="_blank">Coyoacán 城區</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-25" class="day-view">
+            <h2 class="section-title">7/25 (六) ｜ 歷史文化與家鄉味</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Bosque+de+Chapultepec+Mexico+City&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Castillo+de+Chapultepec/Museo+Nacional+de+Antropologia+Mexico/Bao+Bao+Taiwanese+Eatery+Mexico" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">07:00 - 08:10</span>
+                        <div class="event-title">飯店早餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>吃飽喝足，準備一天的文化洗禮。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">08:30 - 11:30</span>
+                        <div class="event-title">Chapultepec 城堡</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=查普爾特佩克城堡" alt="城堡" class="attraction-img">
+                        <p>美洲大陸上唯一的一座皇家城堡 (09:00 開放)，位於高地上，可以俯瞰整座墨西哥城的美麗天際線。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Chapultepec+Castle" class="btn-spot-map" target="_blank">Chapultepec 城堡</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">12:00 - 13:00</span>
+                        <div class="event-title">博物館餐廳午餐</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>於人類學博物館附設餐廳享用午餐。</p>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span class="time">13:00 - 17:00</span>
+                        <div class="event-title">國立人類學博物館</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>墨西哥最重要的博物館！深入探索各大文明展廳：</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=National+Museum+of+Anthropology+Mexico" class="btn-spot-map" target="_blank">國立人類學博物館</a>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=世界起源廳" alt="世界起源廳" class="spot-img">
+                            <h4 class="spot-title">世界起源廳</h4>
+                            <p class="spot-desc">探索人類的起源與演化，為深入了解美洲原住民歷史揭開序幕。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=奧爾美加文明" alt="奧爾美加文明" class="spot-img">
+                            <h4 class="spot-title">奧爾美加文明廳 (Olmeca)</h4>
+                            <p class="spot-desc">探訪中美洲文明的「母文化」，必看標誌性的巨大玄武岩人頭雕像。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=迪奧狄華肯文明" alt="迪奧狄華肯文明" class="spot-img">
+                            <h4 class="spot-title">迪奧狄華肯文明廳 (Teotihuacan)</h4>
+                            <p class="spot-desc">展出眾神之城的珍貴文物，一睹當時繁華的都市規劃與神話信仰。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=阿兹特克文明" alt="阿兹特克文明" class="spot-img">
+                            <h4 class="spot-title">阿兹特克文明廳 (Azteca)</h4>
+                            <p class="spot-desc">博物館的核心展廳，鎮館之寶「太陽曆石」便座落於此，極具震撼力。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=瑪雅文明" alt="瑪雅文明" class="spot-img">
+                            <h4 class="spot-title">瑪雅文明廳 (Maya)</h4>
+                            <p class="spot-desc">欣賞瑪雅人精湛的曆法、象形文字與翡翠面具，感受叢林中的神祕智慧。</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>
+                        <span class="time">17:30 - 19:30</span>
+                        <div class="event-title">Roma 區與台灣刈包</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>在時髦的羅馬區散步，晚餐特別安排 Bao Bao Taiwanese Eatery，在異鄉品嚐熟悉的台灣刈包解解饞！</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Bao+Bao+Taiwanese+Eatery+Roma+Nte" class="btn-spot-map" target="_blank">Bao Bao Taiwanese Eatery</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-26" class="day-view">
+            <h2 class="section-title">7/26 (日) ｜ 俯瞰眾神之城</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Teotihuacan+Mexico&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Teotihuacan+Pyramids/Mercado+de+Artesanias+La+Ciudadela/Entremar+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">05:00 - 15:00</span>
+                        <div class="event-title">日月金字塔與古城導覽</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>迎著晨曦搭乘熱氣球升空，並於降落後進行特奧蒂瓦坎 (Teotihuacán) 園區深度導覽。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Teotihuacan+Pyramids" class="btn-spot-map" target="_blank">Teotihuacán 園區</a>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=太陽金字塔" alt="太陽金字塔" class="spot-img">
+                            <h4 class="spot-title">太陽金字塔</h4>
+                            <p class="spot-desc">世界第三大金字塔，展現了古人對太陽神的敬畏與卓越的建築工藝。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=月亮金字塔" alt="月亮金字塔" class="spot-img">
+                            <h4 class="spot-title">月亮金字塔</h4>
+                            <p class="spot-desc">位於亡靈大道的盡頭，從這裡可以俯瞰整座古城的壯闊全景與幾何布局。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=羽蛇神宮殿" alt="羽蛇神宮殿" class="spot-img">
+                            <h4 class="spot-title">羽蛇神宮殿</h4>
+                            <p class="spot-desc">表面飾有精美的羽蛇神與雨神浮雕，是特奧蒂瓦坎最華麗、最具神話色彩的建築之一。</p>
+                        </div>
+
+                        <div class="spot-card">
+                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=亡靈大道" alt="亡靈大道" class="spot-img">
+                            <h4 class="spot-title">亡靈大道</h4>
+                            <p class="spot-desc">貫穿整座古城的中軸線，兩側遺跡林立，漫步其中彷彿穿越時空回到阿茲特克人命名的神聖古都。</p>
+                        </div>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">15:00 - 16:00</span>
+                        <div class="event-title">傳統手工藝市集</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=手工藝市集" alt="手工藝市集" class="attraction-img">
+                        <p>來到 Mercado de Artesanías La Ciudadela，這裡可以買到各式各樣色彩鮮豔的墨西哥傳統編織品、陶器與紀念品。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Mercado+de+Artesanias+La+Ciudadela" class="btn-spot-map" target="_blank">La Ciudadela 市集</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">16:00 - 17:00</span>
+                        <div class="event-title">回飯店休息</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>返回 Sheraton 飯店稍作休息，梳洗整理。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map" target="_blank">Sheraton 飯店</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">17:30 - 20:00</span>
+                        <div class="event-title">晚餐：Entremar</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>晚餐於墨西哥城非常知名的人氣海鮮餐廳 Entremar 享用豐盛料理。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Entremar+Mexico+City" class="btn-spot-map" target="_blank">Entremar 餐廳</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-27" class="day-view">
+            <h2 class="section-title">7/27 (一) ｜ 重返巴拿馬</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Casco+Viejo+Panama&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+Tocumen/Casco+Viejo+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">06:30 - 08:00</span>
+                        <div class="event-title">出發前往機場</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>抵達墨西哥 MEX 機場報到與托運行李。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map" target="_blank">墨西哥城機場 (MEX)</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">09:50 - 14:36</span>
+                        <div class="event-title">飛往巴拿馬 (PTY)</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘巴拿馬航空 (CM137) 飛回巴拿馬。詳細航班資訊請見「機票」分頁。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">16:00 - 17:00</span>
+                        <div class="event-title">老城區民宿入住</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>入住巴拿馬最精華觀光區的老城區民宿。詳細住宿資訊請見「住宿」分頁。</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-28" class="day-view">
+            <h2 class="section-title">7/28 (二) ｜ 老城區悠閒時光</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">09:00 - 17:00</span>
+                        <div class="event-title">辦理事務與老城觀光</div>
+                    </summary>
+                    <div class="details-content">
+                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=老城區街景" alt="老城區" class="attraction-img">
+                        <p>全天為預留的辦事時間。若無事務，可在老城區內找間咖啡廳坐坐，享受悠閒的拉丁美洲時光。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map" target="_blank">巴拿馬老城區</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-29" class="day-view">
+            <h2 class="section-title">7/29 (三) ｜ 飛往加州</h2>
+            <div class="daily-summary-section">
+                <div class="map-iframe-container">
+                    <iframe src="https://maps.google.com/maps?q=Maple+Tree+Inn+Sunnyvale&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/dir/?api=1&origin=PTY+機場&destination=Multiplaza" class="btn-full-map" target="_blank">開啟當日多點導航</a>
+            </div>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">12:38 - 17:59</span>
+                        <div class="event-title">飛往舊金山 (SFO)</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘巴拿馬航空 (CM408) 前往舊金山。詳細航班資訊請見「機票」分頁。</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <span class="time">19:00 - 20:00</span>
+                        <div class="event-title">Cupertino 旅館入住</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>抵達加州後，前往 Maple Tree Inn 辦理入住休息。詳細住宿資訊請見「住宿」分頁。</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-30" class="day-view">
+            <h2 class="section-title">7/30 (四) ｜ 採買與親友餐敘</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">10:00 - 17:00</span>
+                        <div class="event-title">Cupertino 購物與相聚</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>在 Cupertino 當地輕鬆採買，並與石叔叔溫馨餐敘，分享中南美洲的旅行點滴。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map" target="_blank">Cupertino</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-31" class="day-view">
+            <h2 class="section-title">7/31 (五) ｜ 加州慢活</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">10:00 - 18:00</span>
+                        <div class="event-title">全天自由活動</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>享受沒有行程表的一天，在灣區感受舒適的加州陽光，為隔日的長途飛行儲備體力。</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-01" class="day-view">
+            <h2 class="section-title">8/1 (六) ｜ 踏上歸途</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">01:00 - 04:40 (+1)</span>
+                        <div class="event-title">飛往台灣 (TPE)</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>搭乘長榮航空 (BR27) 返回熟悉的家。詳細航班資訊請見「機票」分頁。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map" target="_blank">舊金山機場 (SFO)</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-02" class="day-view">
+            <h2 class="section-title">8/2 (日) ｜ 平安抵達</h2>
+            <div class="timeline">
+                <details>
+                    <summary>
+                        <span class="time">04:40 - 05:30</span>
+                        <div class="event-title">抵達台灣</div>
+                    </summary>
+                    <div class="details-content">
+                        <p>清晨平安降落於台灣，為這趟跨國之旅畫下完美的句點！</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map" target="_blank">桃園機場 (TPE)</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+    </div> <div id="view-flights" class="main-view">
+        <h2 class="section-title">航班資訊統整</h2>
+        
+        <details class="flight-category" open>
+            <summary>爸媽的航班</summary>
+            
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>巴拿馬航空 CM409</span>
+                    <span class="tag">爸媽</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/17 20:16</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/18 05:35</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm409" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+        </details>
+
+        <details class="flight-category" open>
+            <summary>奇叮的航班</summary>
+            
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>長榮航空 BR28</span>
+                    <span class="tag">奇叮</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>TPE</h2><p>台北</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/17 23:40</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/17 20:35</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/br28" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>長榮航空 BR3181</span>
+                    <span class="tag">奇叮</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/18 01:12</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/18 10:27</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/br3181" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+        </details>
+
+        <details class="flight-category" open>
+            <summary>全家共乘航班</summary>
+
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>巴拿馬航空 CM120</span>
+                    <span class="tag">全家</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>MEX</h2><p>墨西哥城</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/23 09:25</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/23 12:10</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm120" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>巴拿馬航空 CM137</span>
+                    <span class="tag">全家</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>MEX</h2><p>墨西哥城</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/27 09:50</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/27 14:36</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm137" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>巴拿馬航空 CM408</span>
+                    <span class="tag">全家</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>7/29 12:38</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>7/29 17:59</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm408" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span>長榮航空 BR27</span>
+                    <span class="tag">全家</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2>TPE</h2><p>台北</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong>8/1 01:00</strong></div>
+                    <div class="time-block"><span>抵達</span><strong>8/2 04:40</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/br27" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+        </details>
+
+    </div> <div id="view-accommodations" class="main-view">
+        <h2 class="section-title">住宿資訊統整</h2>
+        
+        <div class="accom-card">
+            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬海景民宿" alt="巴拿馬住宿" class="accom-img">
+            <span class="accom-dates">入住：7/18 - 7/23 (5晚)</span>
+            <h3 class="accom-title">巴拿馬市區海景民宿</h3>
+            <p class="accom-desc">靠近市區 Hilton、交通方便（去各辦事地點都算方便）的海景民宿，2房2衛浴～<br>（已多訂前一天，爸媽抵達當天可以直接 check-in）</p>
+            <div class="accom-actions">
+                <a href="https://www.airbnb.com/l/KdANsAqr" class="btn-accom btn-airbnb" target="_blank">Airbnb</a>
+            </div>
+        </div>
+
+        <div class="accom-card">
+            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Sheraton+CDMX" alt="墨西哥城住宿" class="accom-img">
+            <span class="accom-dates">入住：7/23 - 7/27 (4晚)</span>
+            <h3 class="accom-title">Sheraton Maria Isabel</h3>
+            <p class="accom-desc">位於墨西哥城 (CDMX) 的精華地段，房型為 2 間豪華雙人房。</p>
+            <div class="accom-actions">
+                <a href="https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc" class="btn-accom btn-map" target="_blank">地圖位置</a>
+            </div>
+        </div>
+
+        <div class="accom-card">
+            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區民宿" alt="巴拿馬老城區住宿" class="accom-img">
+            <span class="accom-dates">入住：7/27 - 7/29 (2晚)</span>
+            <h3 class="accom-title">巴拿馬老城區民宿</h3>
+            <p class="accom-desc">位於巴拿馬最精華觀光區的老城區民宿，房型為 2房2衛浴。</p>
+            <div class="accom-actions">
+                <a href="https://www.airbnb.com/l/FEdGpGTk" class="btn-accom btn-airbnb" target="_blank">Airbnb</a>
+            </div>
+        </div>
+
+        <div class="accom-card">
+            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Maple+Tree+Inn" alt="加州住宿" class="accom-img">
+            <span class="accom-dates">入住：7/29 - 7/31 (2晚)</span>
+            <h3 class="accom-title">Maple Tree Inn</h3>
+            <p class="accom-desc">位於加州 Cupertino。（子奇、叮噹入住）</p>
+            <div class="accom-actions">
+                <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-accom btn-map" target="_blank">地圖位置</a>
+            </div>
+        </div>
+
+    </div> <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="switchMainView('view-itinerary', this, 'Family Trip 2026')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </div>
+            <span>行程</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchMainView('view-flights', this, '機票統整')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-1.5 1.5L8 19l2.5-3.5 3 3 4 6 1.2-.7-.4-5.6z"/>
+                </svg>
+            </div>
+            <span>機票</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchMainView('view-accommodations', this, '住宿統整')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 4v16"></path>
+                    <path d="M2 8h18a2 2 0 0 1 2 2v10"></path>
+                    <path d="M2 17h20"></path>
+                    <path d="M6 8v9"></path>
+                </svg>
+            </div>
+            <span>住宿</span>
+        </a>
+    </nav>
+
+    <script>
+        function showDay(dayId, btnElement) {
+            const views = document.querySelectorAll('.day-view');
+            views.forEach(view => view.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.day-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(dayId).classList.add('active');
+            btnElement.classList.add('active');
+
+            const navBar = document.getElementById('navBar');
+            const scrollLeft = btnElement.offsetLeft - (navBar.offsetWidth / 2) + (btnElement.offsetWidth / 2);
+            navBar.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+        }
+
+        function switchMainView(viewId, btnElement, titleText) {
+            const mainViews = document.querySelectorAll('.main-view');
+            mainViews.forEach(view => view.classList.remove('active'));
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            document.getElementById(viewId).classList.add('active');
+            btnElement.classList.add('active');
+
+            const dayNav = document.getElementById('navBar');
+            const headerTitle = document.getElementById('header-title');
+            
+            if(viewId === 'view-itinerary') {
+                dayNav.style.display = 'flex';
+                headerTitle.innerText = 'Family Trip 2026';
+            } else {
+                dayNav.style.display = 'none';
+                headerTitle.innerText = titleText;
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
