@@ -7,16 +7,17 @@
     
     <style>
         :root {
-            /* 時尚拉美風配色 (Modern Latin Aesthetic) */
-            --bg-color: #F7F4EF;       /* 灰泥白 (Plaster) */
-            --primary: #2D2A26;        /* 深炭黑 */
-            --accent-terra: #C05C42;   /* 現代陶土紅 (Terracotta) */
-            --accent-agave: #4C6A5A;   /* 龍舌蘭綠 (Agave Green) */
-            --line-color: #E2DCD0;     /* 暖沙色線條 */
-            --card-bg: #FFFFFF;        /* 純白卡片 */
+            /* 時尚拉美風配色 */
+            --bg-color: #F7F4EF;       
+            --primary: #2D2A26;        
+            --accent-terra: #C05C42;   
+            --accent-agave: #4C6A5A;   
+            --line-color: #E2DCD0;     
+            --card-bg: #FFFFFF;        
             --text-sub: #7A756C;
-            --ticket-bg: #F8F3E6;      /* 清淡優雅的奶油沙色 */
-            --ticket-text: #6B5B3E;    /* 登機證柔和深色字 */
+            --ticket-bg: #F8F3E6;      
+            --ticket-text: #6B5B3E;    
+            --delete-color: #E74C3C;
         }
 
         body {
@@ -58,10 +59,7 @@
             padding-bottom: 5px;
             scrollbar-width: none;
         }
-        
-        .day-nav::-webkit-scrollbar {
-            display: none;
-        }
+        .day-nav::-webkit-scrollbar { display: none; }
 
         .day-tab {
             background: rgba(255, 255, 255, 0.1);
@@ -75,7 +73,6 @@
             transition: all 0.3s ease;
             letter-spacing: 1px;
         }
-
         .day-tab.active {
             background-color: var(--accent-terra);
             color: #FFFFFF;
@@ -92,477 +89,245 @@
             margin: 0 auto;
             padding: 25px 20px;
         }
-
-        .main-view.active {
-            display: block;
-        }
-
+        .main-view.active { display: block; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ---------------- 行程頁面樣式 ---------------- */
-        .day-view {
-            display: none;
+        /* 小編輯按鈕 */
+        .btn-edit-tiny {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            opacity: 0.4;
+            cursor: pointer;
+            padding: 0 5px;
+            margin-left: 8px;
+            transition: all 0.2s;
         }
+        .btn-edit-tiny:hover { opacity: 1; color: var(--accent-terra); transform: scale(1.1); }
 
-        .day-view.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
+        /* ---------------- 行程頁面樣式 ---------------- */
+        .day-view { display: none; }
+        .day-view.active { display: block; animation: fadeIn 0.4s ease; }
 
         h2.section-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--accent-terra);
             margin-top: 0;
             margin-bottom: 25px;
             font-weight: 600;
             border-bottom: 1px solid var(--line-color);
             padding-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
+        .day-title-text { flex-grow: 1; }
 
-        /* 每日行程地圖區塊 */
         .daily-summary-section {
             background-color: var(--card-bg);
             border-radius: 16px; 
-            padding: 20px;
+            padding: 15px;
             margin-bottom: 35px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.04);
             border: 1px solid rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            text-align: center;
         }
-
-        .map-iframe-container {
-            width: 100%;
-            height: 220px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #eee;
+        .banner-container {
+            position: relative; width: 100%; border-radius: 10px; overflow: hidden; cursor: pointer;
         }
-
-        .map-iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+        .daily-banner-img {
+            width: 100%; height: 180px; object-fit: cover; display: block; transition: opacity 0.3s;
         }
-
-        .btn-full-map {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--bg-color);
-            color: var(--primary);
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--line-color);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-top: 5px;
+        .banner-edit-overlay {
+            position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white;
+            border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
-
-        .btn-full-map::before {
-            content: '🗺️';
-            margin-right: 8px;
-        }
+        .banner-container.show-overlay .daily-banner-img { opacity: 0.8; }
+        .banner-container.show-overlay .banner-edit-overlay { opacity: 1; pointer-events: auto; }
 
         .timeline {
-            border-left: 1px solid var(--line-color);
-            padding-left: 30px;
-            margin-left: 10px;
+            border-left: 1px solid var(--line-color); padding-left: 30px; margin-left: 10px;
+        }
+        .timeline details.itinerary-block { position: relative; margin-bottom: 35px; }
+        .timeline details.itinerary-block::before {
+            content: ''; position: absolute; left: -35px; top: 6px; width: 10px; height: 10px;
+            background-color: var(--bg-color); border: 2px solid var(--accent-terra); border-radius: 50%; z-index: 1; transition: all 0.3s ease;
+        }
+        .timeline details.itinerary-block[open]::before {
+            background-color: var(--accent-terra); box-shadow: 0 0 0 4px rgba(192, 92, 66, 0.1);
         }
 
-        .timeline details {
-            position: relative;
-            margin-bottom: 35px;
-        }
-
-        .timeline details::before {
-            content: '';
-            position: absolute;
-            left: -35px;
-            top: 6px;
-            width: 10px;
-            height: 10px;
-            background-color: var(--bg-color);
-            border: 2px solid var(--accent-terra);
-            border-radius: 50%;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-
-        .timeline details[open]::before {
-            background-color: var(--accent-terra);
-            box-shadow: 0 0 0 4px rgba(192, 92, 66, 0.1);
-        }
-
-        summary {
-            font-size: 1.05rem;
-            color: var(--primary);
-            cursor: pointer;
-            list-style: none;
-            position: relative;
-            outline: none;
-        }
-        
+        summary { font-size: 1.05rem; color: var(--primary); cursor: pointer; list-style: none; position: relative; outline: none; }
         summary::-webkit-details-marker { display: none; }
 
-        .time {
-            display: block;
-            color: var(--text-sub);
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .event-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 1.15rem;
-        }
-
-        .event-title::after {
-            content: '+';
-            font-size: 1.3rem;
-            color: var(--text-sub);
-            font-weight: 300;
-        }
-
+        .time { display: block; color: var(--text-sub); font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; margin-bottom: 6px; }
+        .event-title { display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 1.15rem; }
+        .event-title-text { flex-grow: 1; }
+        .event-title::after { content: '+'; font-size: 1.3rem; color: var(--text-sub); font-weight: 300; margin-left: 10px; }
         .timeline details[open] .event-title::after { content: '−'; color: var(--accent-agave); }
         .timeline details[open] .event-title { color: var(--accent-agave); }
 
         .details-content { padding-top: 15px; padding-bottom: 5px; }
-        .details-content p { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.7; }
+        .details-content p.normal-desc-text { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.7; }
         
-        .note {
-            background-color: #F0EBE1;
-            color: var(--accent-agave);
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            display: inline-block;
-        }
-
-        /* 景點單點地圖按鈕 */
         .btn-spot-map {
-            display: inline-flex;
-            align-items: center;
-            background-color: transparent;
-            color: var(--accent-agave);
-            border: 1px solid var(--accent-agave);
-            padding: 6px 12px;
-            border-radius: 16px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            transition: all 0.2s ease;
+            display: inline-flex; align-items: center; background-color: transparent; color: var(--accent-agave);
+            border: 1px solid var(--accent-agave); padding: 6px 12px; border-radius: 16px; text-decoration: none;
+            font-size: 0.8rem; font-weight: 600; margin-bottom: 15px; margin-right: 8px; transition: all 0.2s ease;
         }
-        
-        .btn-spot-map:hover {
-            background-color: var(--accent-agave);
-            color: #fff;
-        }
+        .btn-spot-map:hover { background-color: var(--accent-agave); color: #fff; }
+        .btn-spot-map.btn-location::before { content: '📍'; margin-right: 4px; }
+        .btn-spot-map.btn-link::before { content: '🔗'; margin-right: 4px; }
 
-        .btn-spot-map::before {
-            content: '📍';
-            margin-right: 4px;
-        }
-
-        /* 一般行程圖片 (拉美高挑拱門造型) */
         .attraction-img {
-            width: 100%;
-            height: 360px; 
-            border-radius: 150px 150px 12px 12px; 
-            margin-bottom: 18px;
-            object-fit: cover;
-            display: block;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            width: 100%; height: 360px; border-radius: 150px 150px 12px 12px; margin-bottom: 18px;
+            object-fit: cover; display: block; box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        /* 重點景點圖卡 (正方形 + 白色框底 + 導覽文字) */
+        .spots-container { margin-top: 20px; }
         .spot-card {
-            background-color: #FFFFFF;
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-            margin-bottom: 25px;
-            border: 1px solid rgba(0,0,0,0.02);
-            text-align: left;
+            background-color: #FFFFFF; padding: 16px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            margin-bottom: 25px; border: 1px solid rgba(0,0,0,0.02); text-align: left; position: relative;
         }
-
         .spot-img {
-            width: 100%;
-            aspect-ratio: 1 / 1; /* 完美正方形 */
-            object-fit: cover;
-            border-radius: 8px; /* 微圓角契合外框 */
-            margin-bottom: 15px;
-            display: block;
+            width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; margin-bottom: 15px; display: block;
         }
-
         .spot-title {
-            font-size: 1.15rem;
-            color: var(--accent-terra);
-            margin: 0 0 8px 0;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 1.15rem; color: var(--accent-terra); margin: 0 0 8px 0; font-weight: 700; display: flex; justify-content: space-between;
         }
+        .spot-desc { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.6; }
 
-        .spot-desc {
-            font-size: 0.95rem;
-            color: #555;
-            margin: 0 0 15px 0;
-            line-height: 1.6;
+        .btn-add-spot {
+            display: inline-flex; align-items: center; background: none; color: var(--text-sub); border: 1px dashed var(--line-color);
+            padding: 6px 12px; border-radius: 12px; font-size: 0.85rem; cursor: pointer; margin-top: 5px; opacity: 0.6; transition: all 0.2s;
         }
+        .btn-add-spot:hover { opacity: 1; color: var(--accent-terra); border-color: var(--accent-terra); }
 
-        /* ---------------- 機票頁面樣式 (Boarding Pass) ---------------- */
-        
-        .flight-category {
-            margin-bottom: 20px;
-        }
-        
+        /* ================= 機票樣式 ================= */
+        .flight-category { margin-bottom: 20px; }
         .flight-category summary {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-terra);
-            padding: 15px 5px;
-            border-bottom: 2px solid var(--line-color);
-            margin-bottom: 20px;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 1.2rem; font-weight: 700; color: var(--accent-terra); padding: 15px 5px;
+            border-bottom: 2px solid var(--line-color); margin-bottom: 20px; display: flex; justify-content: space-between;
         }
-        
-        .flight-category summary::after {
-            content: '−';
-            font-weight: 300;
-            font-size: 1.5rem;
-            color: var(--accent-terra);
-        }
-        
-        .flight-category:not([open]) summary::after {
-            content: '+';
-        }
+        .flight-category summary::after { content: '−'; font-weight: 300; font-size: 1.5rem; color: var(--accent-terra); }
+        .flight-category:not([open]) summary::after { content: '+'; }
 
         .flight-ticket {
-            background: var(--ticket-bg);
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            position: relative;
-            overflow: hidden;
-            color: var(--ticket-text);
+            background: var(--ticket-bg); border-radius: 16px; padding: 22px; margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); position: relative; overflow: hidden; color: var(--ticket-text);
         }
-
-        /* 模擬機票撕線：半圓形挖洞 */
         .flight-ticket::before, .flight-ticket::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            background-color: var(--bg-color);
-            border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.03); 
-            z-index: 2;
+            content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 24px; height: 24px;
+            background-color: var(--bg-color); border-radius: 50%; border: 1px solid rgba(0,0,0,0.03); z-index: 2;
         }
         .flight-ticket::before { left: -13px; }
         .flight-ticket::after { right: -13px; }
 
         .ticket-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px dashed rgba(107, 91, 62, 0.2);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 0.95rem;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(107, 91, 62, 0.2);
+            padding-bottom: 15px; margin-bottom: 15px; font-weight: 700; font-size: 0.95rem;
         }
-
-        .ticket-header span.tag {
-            background-color: rgba(255,255,255,0.6);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            color: var(--accent-agave);
-        }
-
-        .ticket-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 0 15px;
-        }
-
+        .ticket-header span.tag { background-color: rgba(255,255,255,0.6); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; color: var(--accent-agave); }
+        .ticket-body { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 0 15px; }
         .port { text-align: center; }
-        .port h2 { margin: 0; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; color: var(--primary); }
+        .port h2 { margin: 0; font-size: 2.2rem; font-weight: 800; color: var(--primary); }
         .port p { margin: 0; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
-
-        /* 飛機圖示改為俐落箭頭 */
-        .flight-icon { 
-            font-size: 1.5rem; 
-            color: var(--accent-terra); 
-            font-weight: 300;
-        }
-
-        .ticket-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5px;
-        }
-
+        .flight-icon { font-size: 1.5rem; color: var(--accent-terra); font-weight: 300; }
+        .ticket-footer { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
         .time-block span { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; font-weight: 600;}
         .time-block strong { display: block; font-size: 1.1rem; margin-top: 2px; color: var(--primary); }
-
         .btn-track {
-            background-color: var(--accent-agave);
-            color: #FFFFFF;
-            padding: 10px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: opacity 0.2s;
-            box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
-        }
-        
-        .btn-track:hover {
-            opacity: 0.85;
+            background-color: var(--accent-agave); color: #FFFFFF; padding: 10px 16px; border-radius: 20px;
+            text-decoration: none; font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
         }
 
-        /* ---------------- 住宿頁面樣式 ---------------- */
+        /* ================= 住宿樣式 ================= */
         .accom-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.03);
-            text-align: center;
+            background-color: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.03); text-align: center; position: relative;
         }
-
         .accom-img {
-            width: 100%;
-            height: 320px;
-            border-radius: 150px 150px 12px 12px;
-            margin-bottom: 20px;
-            object-fit: cover;
-            display: block;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            width: 100%; height: 320px; border-radius: 150px 150px 12px 12px; margin-bottom: 20px; object-fit: cover; display: block;
         }
-
         .accom-dates {
-            display: inline-block;
-            background-color: var(--bg-color);
-            color: var(--accent-terra);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            border: 1px solid var(--line-color);
+            display: inline-block; background-color: var(--bg-color); color: var(--accent-terra); padding: 6px 14px;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; border: 1px solid var(--line-color);
         }
-
-        .accom-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 10px 0;
-        }
-
-        .accom-desc {
-            font-size: 0.95rem;
-            color: var(--text-sub);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .accom-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
+        .accom-title { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 10px 0; display: flex; justify-content: center; align-items: center; }
+        .accom-desc { font-size: 0.95rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; }
+        .accom-actions { display: flex; justify-content: center; gap: 10px; }
         .btn-accom {
-            padding: 10px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.2s;
+            padding: 8px 18px; border-radius: 12px; text-decoration: none; font-size: 0.9rem; font-weight: 600;
+            border: 1px solid var(--accent-terra); color: var(--accent-terra); transition: all 0.2s;
         }
+        .btn-accom:hover { background-color: var(--accent-terra); color: white; }
 
-        .btn-airbnb { background-color: var(--accent-terra); color: white; }
-        .btn-map { background-color: var(--bg-color); color: var(--primary); border: 1px solid var(--line-color); }
-
-        /* ---------------- 底部導航列 (Bottom Nav) ---------------- */
+        /* ================= 底部導航 & FAB ================= */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid var(--line-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
-            z-index: 1000;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.03);
+            position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line-color);
+            display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000;
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            color: var(--text-sub);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 33%;
-        }
-
-        /* 簡約 SVG 圖示 */
-        .nav-icon { 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease; 
-        }
-        
-        .nav-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-sub); text-decoration: none; font-size: 0.75rem; font-weight: 600; width: 33%; }
+        .nav-icon { display: flex; align-items: center; transition: all 0.2s ease; }
+        .nav-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         .nav-item.active { color: var(--accent-agave); }
         .nav-item.active .nav-icon { transform: translateY(-3px); }
+
+        .fab-btn {
+            position: fixed; bottom: 90px; right: 20px; width: 56px; height: 56px; background-color: var(--accent-terra);
+            color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(192, 92, 66, 0.4); cursor: pointer; z-index: 999;
+        }
+        .fab-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ================= 彈出表單 Modal ================= */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 2000;
+            display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background-color: var(--bg-color); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 24px 24px 0 0;
+            padding: 25px 25px 40px; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line-color); padding-bottom: 15px; }
+        .modal-header h3 { margin: 0; color: var(--primary); font-size: 1.3rem; }
+        .close-btn { background: none; border: none; font-size: 1.8rem; color: var(--text-sub); cursor: pointer; }
+
+        .edit-form { display: none; flex-direction: column; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+        .form-control {
+            width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid var(--line-color);
+            background-color: var(--card-bg); font-family: inherit; font-size: 1rem; color: var(--primary); box-sizing: border-box;
+        }
+        textarea.form-control { resize: vertical; min-height: 80px; }
+        .radio-group { display: flex; gap: 15px; padding: 10px 0; }
+        
+        .form-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .form-actions button { flex: 1; }
+
+        .btn-submit {
+            background-color: var(--accent-agave); color: white; border: none; border-radius: 12px;
+            padding: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;
+        }
+        .btn-delete {
+            background-color: transparent; color: var(--delete-color); border: 1px solid var(--delete-color);
+            border-radius: 12px; padding: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-delete:hover { background-color: var(--delete-color); color: white; }
+
+        .toast {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(45, 42, 38, 0.9);
+            color: white; padding: 15px 30px; border-radius: 30px; font-weight: 600; z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .toast.show { opacity: 1; }
 
     </style>
 </head>
@@ -571,685 +336,1164 @@
     <header id="main-header">
         <h1 id="header-title">Family Trip 2026</h1>
         <div class="day-nav" id="navBar">
-            <button class="day-tab active" onclick="showDay('day-17', this)">7/17</button>
-            <button class="day-tab" onclick="showDay('day-18', this)">7/18</button>
-            <button class="day-tab" onclick="showDay('day-19', this)">7/19</button>
-            <button class="day-tab" onclick="showDay('day-20', this)">7/20</button>
-            <button class="day-tab" onclick="showDay('day-21', this)">7/21</button>
-            <button class="day-tab" onclick="showDay('day-22', this)">7/22</button>
-            <button class="day-tab" onclick="showDay('day-23', this)">7/23</button>
-            <button class="day-tab" onclick="showDay('day-24', this)">7/24</button>
-            <button class="day-tab" onclick="showDay('day-25', this)">7/25</button>
-            <button class="day-tab" onclick="showDay('day-26', this)">7/26</button>
-            <button class="day-tab" onclick="showDay('day-27', this)">7/27</button>
-            <button class="day-tab" onclick="showDay('day-28', this)">7/28</button>
-            <button class="day-tab" onclick="showDay('day-29', this)">7/29</button>
-            <button class="day-tab" onclick="showDay('day-30', this)">7/30</button>
-            <button class="day-tab" onclick="showDay('day-31', this)">7/31</button>
-            <button class="day-tab" onclick="showDay('day-01', this)">8/1</button>
-            <button class="day-tab" onclick="showDay('day-02', this)">8/2</button>
+            <button class="day-tab active" onclick="showDay('day-17', this)">Jul 17</button>
+            <button class="day-tab" onclick="showDay('day-18', this)">Jul 18</button>
+            <button class="day-tab" onclick="showDay('day-19', this)">Jul 19</button>
+            <button class="day-tab" onclick="showDay('day-20', this)">Jul 20</button>
+            <button class="day-tab" onclick="showDay('day-21', this)">Jul 21</button>
+            <button class="day-tab" onclick="showDay('day-22', this)">Jul 22</button>
+            <button class="day-tab" onclick="showDay('day-23', this)">Jul 23</button>
+            <button class="day-tab" onclick="showDay('day-24', this)">Jul 24</button>
+            <button class="day-tab" onclick="showDay('day-25', this)">Jul 25</button>
+            <button class="day-tab" onclick="showDay('day-26', this)">Jul 26</button>
+            <button class="day-tab" onclick="showDay('day-27', this)">Jul 27</button>
+            <button class="day-tab" onclick="showDay('day-28', this)">Jul 28</button>
+            <button class="day-tab" onclick="showDay('day-29', this)">Jul 29</button>
+            <button class="day-tab" onclick="showDay('day-30', this)">Jul 30</button>
+            <button class="day-tab" onclick="showDay('day-31', this)">Jul 31</button>
+            <button class="day-tab" onclick="showDay('day-01', this)">Aug 01</button>
+            <button class="day-tab" onclick="showDay('day-02', this)">Aug 02</button>
         </div>
     </header>
 
     <div id="view-itinerary" class="main-view active">
         
         <div id="day-17" class="day-view active">
-            <h2 class="section-title">7/17 (五) ｜ 分別啟程</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">7/17 (五) ｜ 分別啟程</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=啟程" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-17">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">20:16 - 05:35 (+1)</span>
-                        <div class="event-title">爸媽前往巴拿馬</div>
+                        <div class="event-title">
+                            <span class="event-title-text">爸媽前往巴拿馬</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘巴拿馬航空 (CM409)，由舊金山飛往巴拿馬。詳細航班資訊請見下方「機票」分頁。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map" target="_blank">舊金山機場 (SFO)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM409</strong><br>20:16 SFO ➔ 05:35 PTY<br>詳細航班資訊請見下方「機票」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">23:40 - 20:35</span>
-                        <div class="event-title">奇叮前往舊金山</div>
+                        <div class="event-title">
+                            <span class="event-title-text">奇叮前往舊金山</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘長榮航空 (BR28)，由台北飛往舊金山。詳細航班資訊請見下方「機票」分頁。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map" target="_blank">桃園機場 (TPE)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 長榮航空 BR28</strong><br>23:40 TPE ➔ 20:35 SFO<br>詳細航班資訊請見下方「機票」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">桃園機場 (TPE)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-18" class="day-view">
-            <h2 class="section-title">7/18 (六) ｜ 巴拿馬會合</h2>
+            <h2 class="section-title"><span class="day-title-text">7/18 (六) ｜ 巴拿馬會合</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Panama+City+Panama&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬市區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+Tocumen/Panama+City/Multiplaza+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-18">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">05:35 - 08:00</span>
-                        <div class="event-title">爸媽抵達巴拿馬</div>
+                        <div class="event-title">
+                            <span class="event-title-text">爸媽抵達巴拿馬</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>抵達後先至民宿辦理 check-in 與休息，適應時差。詳細住宿資訊請見「住宿」分頁。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Hilton+Panama" class="btn-spot-map" target="_blank">巴拿馬市區民宿</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達後先至民宿辦理 check-in 與休息，適應時差。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Hilton+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬市區民宿</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">01:12 - 10:27</span>
-                        <div class="event-title">奇叮飛往巴拿馬</div>
+                        <div class="event-title">
+                            <span class="event-title-text">奇叮飛往巴拿馬</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘長榮航空 (BR3181)，由舊金山飛往巴拿馬。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map" target="_blank">巴拿馬機場 (PTY)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 長榮航空 BR3181</strong><br>01:12 SFO ➔ 10:27 PTY</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">12:00 - 14:00</span>
-                        <div class="event-title">民宿會合與午餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">民宿會合與午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>全家於民宿順利會合！在附近輕鬆吃個午餐。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">全家於民宿順利會合！在附近輕鬆吃個午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">16:30 - 20:00</span>
-                        <div class="event-title">購物中心逛街與晚餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">購物中心逛街與晚餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>傍晚前往當地的 Mall (Multiplaza) 逛逛，並享用晚餐。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map" target="_blank">Multiplaza Panamá</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">傍晚前往當地的 Mall (Multiplaza) 逛逛，並享用晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Multiplaza Panamá</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-19" class="day-view">
-            <h2 class="section-title">7/19 (日) ｜ 世紀工程</h2>
+            <h2 class="section-title"><span class="day-title-text">7/19 (日) ｜ 世紀工程</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Miraflores+Locks+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Panama+City/Miraflores+Visitor+Center+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-19">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 15:00</span>
-                        <div class="event-title">巴拿馬運河一日遊</div>
+                        <div class="event-title">
+                            <span class="event-title-text">巴拿馬運河一日遊</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" alt="巴拿馬運河" class="attraction-img">
-                        <p>來到巴拿馬必訪的世紀工程！可選擇在 Miraflores 觀景台近距離欣賞巨輪過閘門，或是選擇搭船親自航行巴拿馬運河南段（約需 6 小時）。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Miraflores+Visitor+Center+Panama" class="btn-spot-map" target="_blank">Miraflores 觀景台</a>
+                        <div class="normal-info">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">來到巴拿馬必訪的世紀工程！可選擇在 Miraflores 觀景台近距離欣賞巨輪過閘門，或是選擇搭船親自航行巴拿馬運河南段（約需 6 小時）。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Miraflores+Visitor+Center+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Miraflores 觀景台</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-20" class="day-view">
-            <h2 class="section-title">7/20 (一) ｜ 辦理重要事務</h2>
+            <h2 class="section-title"><span class="day-title-text">7/20 (一) ｜ 辦理重要事務</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Plaza+Edison+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬辦事" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Ministerio+De+Comercio+E+Industrias,+Panama/Banesco+Calle+50,+Panama/Multiplaza+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
             <div class="note">✅ 今日安排隨行口譯協助</div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-20">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 12:00</span>
-                        <div class="event-title">辦理永居卡</div>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理永居卡</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Ministerio+De+Comercio+E+Industrias+Panama" class="btn-spot-map" target="_blank">永居卡辦理處</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Ministerio+De+Comercio+E+Industrias+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">永居卡辦理處</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">14:00 - 16:00</span>
-                        <div class="event-title">銀行開戶</div>
+                        <div class="event-title">
+                            <span class="event-title-text">銀行開戶</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>前往 Banesco Xperience (Calle 50 分行) 辦理開戶事宜。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Banesco+Calle+50+Panama" class="btn-spot-map" target="_blank">Banesco 銀行</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Banesco Xperience (Calle 50 分行) 辦理開戶事宜。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Banesco+Calle+50+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Banesco 銀行</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">17:00 - 20:00</span>
-                        <div class="event-title">Multiplaza 逛街與晚餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Multiplaza 逛街與晚餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>順利完成辦理事項後，於商場放鬆休息享用晚餐。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map" target="_blank">Multiplaza Panamá</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">順利完成辦理事項後，於商場放鬆休息享用晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Multiplaza Panamá</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-21" class="day-view">
-            <h2 class="section-title">7/21 (二) ｜ 辦理身分證與看房</h2>
+            <h2 class="section-title"><span class="day-title-text">7/21 (二) ｜ 辦理身分證與看房</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Costa+del+Este+Panama&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬辦事" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Electoral+Tribunal+of+Panama/Financial+Park+Panama/Town+Center+Costa+del+Este+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
             <div class="note">✅ 今日安排隨行口譯協助</div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-21">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 12:00</span>
-                        <div class="event-title">辦理身分證</div>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理身分證</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>前往 Electoral Tribunal of Panama 辦理手續。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Tribunal+Electoral+Panama" class="btn-spot-map" target="_blank">身分證辦理處</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Electoral Tribunal of Panama 辦理手續。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Tribunal+Electoral+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">身分證辦理處</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">14:00 - 16:30</span>
-                        <div class="event-title">參觀房產與午餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">參觀房產與午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>前往 Financial Park 了解當地房地產，並在附近享用午餐。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Financial+Park+Costa+del+Este" class="btn-spot-map" target="_blank">Financial Park</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Financial Park 了解當地房地產，並在附近享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Financial+Park+Costa+del+Este" class="btn-spot-map btn-location normal-map-target" target="_blank">Financial Park</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">17:00 - 20:00</span>
-                        <div class="event-title">Town Center 逛街</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Town Center 逛街</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>傍晚前往 Costa del Este 新城區的商場閒逛與晚餐。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Town+Center+Costa+del+Este" class="btn-spot-map" target="_blank">Town Center</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">傍晚前往 Costa del Este 新城區的商場閒逛與晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Town+Center+Costa+del+Este" class="btn-spot-map btn-location normal-map-target" target="_blank">Town Center</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-22" class="day-view">
-            <h2 class="section-title">7/22 (三) ｜ 預留彈性與老城</h2>
+            <h2 class="section-title"><span class="day-title-text">7/22 (三) ｜ 預留彈性與老城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Casco+Viejo+Panama&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬老城區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Panama+City/Casco+Viejo+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-22">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 17:00</span>
-                        <div class="event-title">彈性時間與老城區觀光</div>
+                        <div class="event-title">
+                            <span class="event-title-text">彈性時間與老城區觀光</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區" alt="巴拿馬老城區" class="attraction-img">
-                        <p>全天預留為辦理未完事務的彈性時間。若提早結束，可至充滿殖民色彩的老城區 (Casco Viejo) 與老城堡漫步觀光。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map" target="_blank">巴拿馬老城區</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">全天預留為辦理未完事務的彈性時間。若提早結束，可至充滿殖民色彩的老城區 (Casco Viejo) 與老城堡漫步觀光。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-23" class="day-view">
-            <h2 class="section-title">7/23 (四) ｜ 飛往墨西哥城</h2>
+            <h2 class="section-title"><span class="day-title-text">7/23 (四) ｜ 飛往墨西哥城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Zocalo+Mexico+City&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=墨西哥城" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+la+Ciudad+de+Mexico/Sheraton+Maria+Isabel+Hotel/Zocalo+Mexico+City/Palacio+de+Bellas+Artes+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-23">
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">06:00 - 06:30</span>
-                        <div class="event-title">出發前往機場</div>
+                        <div class="event-title">
+                            <span class="event-title-text">出發前往機場</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>06:00 退房，06:30 抵達巴拿馬機場。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map" target="_blank">巴拿馬機場 (PTY)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">06:00 退房，06:30 抵達巴拿馬機場。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">09:25 - 12:10</span>
-                        <div class="event-title">飛往墨西哥城 (MEX)</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往墨西哥城 (MEX)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘巴拿馬航空 (CM120) 飛往墨西哥城。航班資訊請見「機票」頁面。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map" target="_blank">墨西哥城機場 (MEX)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM120</strong><br>09:25 PTY ➔ 12:10 MEX</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">墨西哥城機場 (MEX)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">14:00 - 14:30</span>
-                        <div class="event-title">飯店寄放行李</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飯店寄放行李</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>抵達 Sheraton María Isabel Hotel 寄放行李。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map" target="_blank">Sheraton 飯店</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達 Sheraton María Isabel Hotel 寄放行李。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map btn-location normal-map-target" target="_blank">Sheraton 飯店</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">14:30 - 19:30</span>
-                        <div class="event-title">城區歷史巡禮</div>
+                        <div class="event-title">
+                            <span class="event-title-text">城區歷史巡禮</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>探索墨西哥城的心臟地帶，感受強烈的文化脈動。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">探索墨西哥城的心臟地帶，感受強烈的文化脈動。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
                         
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=憲法廣場" alt="憲法廣場" class="spot-img">
-                            <h4 class="spot-title">憲法廣場 (Zócalo)</h4>
-                            <p class="spot-desc">墨西哥城的心臟，亦是世界最大廣場之一，周圍環繞著見證歷史更迭的重要建築。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Zocalo+Mexico+City" class="btn-spot-map" target="_blank">憲法廣場</a>
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>憲法廣場 (Zócalo)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=憲法廣場" class="spot-img img-target">
+                                <p class="spot-desc desc-text">墨西哥城的心臟，亦是世界最大廣場之一，周圍環繞著見證歷史更迭的重要建築。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Zocalo+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">憲法廣場</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>大主教堂</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=大主教堂" class="spot-img img-target">
+                                <p class="spot-desc desc-text">拉丁美洲最大和最古老的主教座堂，耗時近三百年建成，融合了多種建築風格。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Metropolitan+Cathedral+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">大主教堂</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>郵政宮 (Palacio Postal)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=郵政宮" class="spot-img img-target">
+                                <p class="spot-desc desc-text">被譽為世界最美的郵局，擁有華麗的青銅雕花樓梯與精緻的大理石裝飾，極具復古奢華感。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Palacio+Postal+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">郵政宮</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>藝術宮 (Palacio de Bellas Artes)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=藝術宮" class="spot-img img-target">
+                                <p class="spot-desc desc-text">展現墨西哥精緻藝術與壁畫的最高殿堂，外觀為華麗的新古典主義與新藝術風格。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Palacio+de+Bellas+Artes+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">藝術宮</a>
+                            </div>
                         </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=大主教堂" alt="大主教堂" class="spot-img">
-                            <h4 class="spot-title">大主教堂</h4>
-                            <p class="spot-desc">拉丁美洲最大和最古老的主教座堂，耗時近三百年建成，融合了多種建築風格。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Metropolitan+Cathedral+Mexico+City" class="btn-spot-map" target="_blank">大主教堂</a>
-                        </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=郵政宮" alt="郵政宮" class="spot-img">
-                            <h4 class="spot-title">郵政宮 (Palacio Postal)</h4>
-                            <p class="spot-desc">被譽為世界最美的郵局，擁有華麗的青銅雕花樓梯與精緻的大理石裝飾，極具復古奢華感。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Palacio+Postal+Mexico+City" class="btn-spot-map" target="_blank">郵政宮</a>
-                        </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=藝術宮" alt="藝術宮" class="spot-img">
-                            <h4 class="spot-title">藝術宮 (Palacio de Bellas Artes)</h4>
-                            <p class="spot-desc">展現墨西哥精緻藝術與壁畫的最高殿堂，外觀為華麗的新古典主義與新藝術風格。</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Palacio+de+Bellas+Artes+Mexico+City" class="btn-spot-map" target="_blank">藝術宮</a>
-                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-24" class="day-view">
-            <h2 class="section-title">7/24 (五) ｜ 霍奇米爾科與藝術</h2>
+            <h2 class="section-title"><span class="day-title-text">7/24 (五) ｜ 霍奇米爾科與藝術</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Coyoacan+Mexico+City&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=霍奇米爾科" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Xochimilco/Museo+Dolores+Olmedo/Coyoacán+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-24">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 11:30</span>
-                        <div class="event-title">霍奇米爾科遊船</div>
+                        <div class="event-title">
+                            <span class="event-title-text">霍奇米爾科遊船</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=霍奇米爾科遊船" alt="霍奇米爾科" class="attraction-img">
-                        <p>搭乘被稱為 Trajinera 的鮮豔木船，穿梭於世界遺產霍奇米爾科的水上花園水道中，感受熱鬧的音樂與氣氛。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Xochimilco+Mexico+City" class="btn-spot-map" target="_blank">霍奇米爾科</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=霍奇米爾科遊船" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">搭乘被稱為 Trajinera 的鮮豔木船，穿梭於世界遺產霍奇米爾科的水上花園水道中，感受熱鬧的音樂與氣氛。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Xochimilco+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">霍奇米爾科</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">12:00 - 13:00</span>
-                        <div class="event-title">午餐時間</div>
+                        <div class="event-title">
+                            <span class="event-title-text">午餐時間</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>於景點附近享用午餐。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">於景點附近享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">13:00 - 15:30</span>
-                        <div class="event-title">奧爾梅多博物館</div>
+                        <div class="event-title">
+                            <span class="event-title-text">奧爾梅多博物館</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=奧爾梅多博物館" alt="奧爾梅多博物館" class="attraction-img">
-                        <p>館內收藏了大量著名藝術家 (如 Frida Kahlo) 的作品，庭院中還能看見孔雀與無毛犬漫步。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Museo+Dolores+Olmedo" class="btn-spot-map" target="_blank">奧爾梅多博物館</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=奧爾梅多博物館" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">館內收藏了大量著名藝術家 (如 Frida Kahlo) 的作品，庭院中還能看見孔雀與無毛犬漫步。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Museo+Dolores+Olmedo" class="btn-spot-map btn-location normal-map-target" target="_blank">奧爾梅多博物館</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">16:00 - 19:00</span>
-                        <div class="event-title">Coyoacán 城區漫步</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Coyoacán 城區漫步</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Coyoacán城區" alt="Coyoacán" class="attraction-img">
-                        <p>漫步於充滿文藝氣息的科約阿坎區，這裡有美麗的百年建築、市集與咖啡館，晚餐也在此享用。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Coyoacan+Mexico+City" class="btn-spot-map" target="_blank">Coyoacán 城區</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Coyoacán城區" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">漫步於充滿文藝氣息的科約阿坎區，這裡有美麗的百年建築、市集與咖啡館，晚餐也在此享用。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Coyoacan+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">Coyoacán 城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-25" class="day-view">
-            <h2 class="section-title">7/25 (六) ｜ 歷史文化與家鄉味</h2>
+            <h2 class="section-title"><span class="day-title-text">7/25 (六) ｜ 歷史文化與家鄉味</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Bosque+de+Chapultepec+Mexico+City&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=博物館" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Castillo+de+Chapultepec/Museo+Nacional+de+Antropologia+Mexico/Bao+Bao+Taiwanese+Eatery+Mexico" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-25">
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">07:00 - 08:10</span>
-                        <div class="event-title">飯店早餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飯店早餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>吃飽喝足，準備一天的文化洗禮。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">吃飽喝足，準備一天的文化洗禮。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">08:30 - 11:30</span>
-                        <div class="event-title">Chapultepec 城堡</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Chapultepec 城堡</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=查普爾特佩克城堡" alt="城堡" class="attraction-img">
-                        <p>美洲大陸上唯一的一座皇家城堡 (09:00 開放)，位於高地上，可以俯瞰整座墨西哥城的美麗天際線。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Chapultepec+Castle" class="btn-spot-map" target="_blank">Chapultepec 城堡</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=查普爾特佩克城堡" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">美洲大陸上唯一的一座皇家城堡 (09:00 開放)，位於高地上，可以俯瞰整座墨西哥城的美麗天際線。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Chapultepec+Castle" class="btn-spot-map btn-location normal-map-target" target="_blank">Chapultepec 城堡</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">12:00 - 13:00</span>
-                        <div class="event-title">博物館餐廳午餐</div>
+                        <div class="event-title">
+                            <span class="event-title-text">博物館餐廳午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>於人類學博物館附設餐廳享用午餐。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">於人類學博物館附設餐廳享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
                 
-                <details>
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">13:00 - 17:00</span>
-                        <div class="event-title">國立人類學博物館</div>
+                        <div class="event-title">
+                            <span class="event-title-text">國立人類學博物館</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>墨西哥最重要的博物館！深入探索各大文明展廳：</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=National+Museum+of+Anthropology+Mexico" class="btn-spot-map" target="_blank">國立人類學博物館</a>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=世界起源廳" alt="世界起源廳" class="spot-img">
-                            <h4 class="spot-title">世界起源廳</h4>
-                            <p class="spot-desc">探索人類的起源與演化，為深入了解美洲原住民歷史揭開序幕。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">墨西哥最重要的博物館！深入探索各大文明展廳：</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=National+Museum+of+Anthropology+Mexico" class="btn-spot-map btn-location normal-map-target" target="_blank">國立人類學博物館</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
                         </div>
 
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=奧爾美加文明" alt="奧爾美加文明" class="spot-img">
-                            <h4 class="spot-title">奧爾美加文明廳 (Olmeca)</h4>
-                            <p class="spot-desc">探訪中美洲文明的「母文化」，必看標誌性的巨大玄武岩人頭雕像。</p>
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>世界起源廳</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=世界起源廳" class="spot-img img-target">
+                                <p class="spot-desc desc-text">探索人類的起源與演化，為深入了解美洲原住民歷史揭開序幕。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>奧爾美加文明廳 (Olmeca)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=奧爾美加文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">探訪中美洲文明的「母文化」，必看標誌性的巨大玄武岩人頭雕像。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>迪奧狄華肯文明廳 (Teotihuacan)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=迪奧狄華肯文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">展出眾神之城的珍貴文物，一睹當時繁華的都市規劃與神話信仰。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>阿兹特克文明廳 (Azteca)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=阿兹特克文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">博物館的核心展廳，鎮館之寶「太陽曆石」便座落於此，極具震撼力。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>瑪雅文明廳 (Maya)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=瑪雅文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">欣賞瑪雅人精湛的曆法、象形文字與翡翠面具，感受叢林中的神祕智慧。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
                         </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=迪奧狄華肯文明" alt="迪奧狄華肯文明" class="spot-img">
-                            <h4 class="spot-title">迪奧狄華肯文明廳 (Teotihuacan)</h4>
-                            <p class="spot-desc">展出眾神之城的珍貴文物，一睹當時繁華的都市規劃與神話信仰。</p>
-                        </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=阿兹特克文明" alt="阿兹特克文明" class="spot-img">
-                            <h4 class="spot-title">阿兹特克文明廳 (Azteca)</h4>
-                            <p class="spot-desc">博物館的核心展廳，鎮館之寶「太陽曆石」便座落於此，極具震撼力。</p>
-                        </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=瑪雅文明" alt="瑪雅文明" class="spot-img">
-                            <h4 class="spot-title">瑪雅文明廳 (Maya)</h4>
-                            <p class="spot-desc">欣賞瑪雅人精湛的曆法、象形文字與翡翠面具，感受叢林中的神祕智慧。</p>
-                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
 
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">17:30 - 19:30</span>
-                        <div class="event-title">Roma 區與台灣刈包</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Roma 區與台灣刈包</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>在時髦的羅馬區散步，晚餐特別安排 Bao Bao Taiwanese Eatery，在異鄉品嚐熟悉的台灣刈包解解饞！</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Bao+Bao+Taiwanese+Eatery+Roma+Nte" class="btn-spot-map" target="_blank">Bao Bao Taiwanese Eatery</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">在時髦的羅馬區散步，晚餐特別安排 Bao Bao Taiwanese Eatery，在異鄉品嚐熟悉的台灣刈包解解饞！</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bao+Bao+Taiwanese+Eatery+Roma+Nte" class="btn-spot-map btn-location normal-map-target" target="_blank">Bao Bao Taiwanese Eatery</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-26" class="day-view">
-            <h2 class="section-title">7/26 (日) ｜ 俯瞰眾神之城</h2>
+            <h2 class="section-title"><span class="day-title-text">7/26 (日) ｜ 俯瞰眾神之城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Teotihuacan+Mexico&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=熱氣球" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Sheraton+Maria+Isabel+Hotel/Teotihuacan+Pyramids/Mercado+de+Artesanias+La+Ciudadela/Entremar+Mexico+City" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-26">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">05:00 - 15:00</span>
-                        <div class="event-title">日月金字塔與古城導覽</div>
+                        <div class="event-title">
+                            <span class="event-title-text">日月金字塔與古城導覽</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>迎著晨曦搭乘熱氣球升空，並於降落後進行特奧蒂瓦坎 (Teotihuacán) 園區深度導覽。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Teotihuacan+Pyramids" class="btn-spot-map" target="_blank">Teotihuacán 園區</a>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=太陽金字塔" alt="太陽金字塔" class="spot-img">
-                            <h4 class="spot-title">太陽金字塔</h4>
-                            <p class="spot-desc">世界第三大金字塔，展現了古人對太陽神的敬畏與卓越的建築工藝。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">迎著晨曦搭乘熱氣球升空，並於降落後進行特奧蒂瓦坎 (Teotihuacán) 園區深度導覽。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Teotihuacan+Pyramids" class="btn-spot-map btn-location normal-map-target" target="_blank">Teotihuacán 園區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
                         </div>
 
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=月亮金字塔" alt="月亮金字塔" class="spot-img">
-                            <h4 class="spot-title">月亮金字塔</h4>
-                            <p class="spot-desc">位於亡靈大道的盡頭，從這裡可以俯瞰整座古城的壯闊全景與幾何布局。</p>
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>太陽金字塔</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=太陽金字塔" class="spot-img img-target">
+                                <p class="spot-desc desc-text">世界第三大金字塔，展現了古人對太陽神的敬畏與卓越的建築工藝。</p>
+                                <a href="https://maps.google.com/" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>月亮金字塔</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=月亮金字塔" class="spot-img img-target">
+                                <p class="spot-desc desc-text">位於亡靈大道的盡頭，從這裡可以俯瞰整座古城的壯闊全景與幾何布局。</p>
+                                <a href="https://maps.google.com/?q=Colonia+Roma+Mexico+City9" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>羽蛇神宮殿</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=羽蛇神宮殿" class="spot-img img-target">
+                                <p class="spot-desc desc-text">表面飾有精美的羽蛇神與雨神浮雕，是特奧蒂瓦坎最華麗、最具神話色彩的建築之一。</p>
+                                <a href="https://maps.google.com/?q=Bao+Bao+Taiwanese+Eatery+Mexico+City0" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>亡靈大道</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=亡靈大道" class="spot-img img-target">
+                                <p class="spot-desc desc-text">貫穿整座古城的中軸線，兩側遺跡林立，漫步其中彷彿穿越時空回到阿茲特克人命名的神聖古都。</p>
+                                <a href="https://maps.google.com/?q=Bao+Bao+Taiwanese+Eatery+Mexico+City1" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
                         </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=羽蛇神宮殿" alt="羽蛇神宮殿" class="spot-img">
-                            <h4 class="spot-title">羽蛇神宮殿</h4>
-                            <p class="spot-desc">表面飾有精美的羽蛇神與雨神浮雕，是特奧蒂瓦坎最華麗、最具神話色彩的建築之一。</p>
-                        </div>
-
-                        <div class="spot-card">
-                            <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=亡靈大道" alt="亡靈大道" class="spot-img">
-                            <h4 class="spot-title">亡靈大道</h4>
-                            <p class="spot-desc">貫穿整座古城的中軸線，兩側遺跡林立，漫步其中彷彿穿越時空回到阿茲特克人命名的神聖古都。</p>
-                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">15:00 - 16:00</span>
-                        <div class="event-title">傳統手工藝市集</div>
+                        <div class="event-title">
+                            <span class="event-title-text">傳統手工藝市集</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=手工藝市集" alt="手工藝市集" class="attraction-img">
-                        <p>來到 Mercado de Artesanías La Ciudadela，這裡可以買到各式各樣色彩鮮豔的墨西哥傳統編織品、陶器與紀念品。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Mercado+de+Artesanias+La+Ciudadela" class="btn-spot-map" target="_blank">La Ciudadela 市集</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=手工藝市集" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">來到 Mercado de Artesanías La Ciudadela，這裡可以買到各式各樣色彩鮮豔的墨西哥傳統編織品、陶器與紀念品。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Mercado+de+Artesanias+La+Ciudadela" class="btn-spot-map btn-location normal-map-target" target="_blank">La Ciudadela 市集</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">16:00 - 17:00</span>
-                        <div class="event-title">回飯店休息</div>
+                        <div class="event-title">
+                            <span class="event-title-text">回飯店休息</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>返回 Sheraton 飯店稍作休息，梳洗整理。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map" target="_blank">Sheraton 飯店</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">返回 Sheraton 飯店稍作休息，梳洗整理。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map btn-location normal-map-target" target="_blank">Sheraton 飯店</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">17:30 - 20:00</span>
-                        <div class="event-title">晚餐：Entremar</div>
+                        <div class="event-title">
+                            <span class="event-title-text">晚餐：Entremar</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>晚餐於墨西哥城非常知名的人氣海鮮餐廳 Entremar 享用豐盛料理。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Entremar+Mexico+City" class="btn-spot-map" target="_blank">Entremar 餐廳</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">晚餐於墨西哥城非常知名的人氣海鮮餐廳 Entremar 享用豐盛料理。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Entremar+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">Entremar 餐廳</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-27" class="day-view">
-            <h2 class="section-title">7/27 (一) ｜ 重返巴拿馬</h2>
+            <h2 class="section-title"><span class="day-title-text">7/27 (一) ｜ 重返巴拿馬</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Casco+Viejo+Panama&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=重返巴拿馬" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+de+Tocumen/Casco+Viejo+Panama" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-27">
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">06:30 - 08:00</span>
-                        <div class="event-title">出發前往機場</div>
+                        <div class="event-title">
+                            <span class="event-title-text">出發前往機場</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>抵達墨西哥 MEX 機場報到與托運行李。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map" target="_blank">墨西哥城機場 (MEX)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達墨西哥 MEX 機場報到與托運行李。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">墨西哥城機場 (MEX)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">09:50 - 14:36</span>
-                        <div class="event-title">飛往巴拿馬 (PTY)</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往巴拿馬 (PTY)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘巴拿馬航空 (CM137) 飛回巴拿馬。詳細航班資訊請見「機票」分頁。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM137</strong><br>09:50 MEX ➔ 14:36 PTY</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">16:00 - 17:00</span>
-                        <div class="event-title">老城區民宿入住</div>
+                        <div class="event-title">
+                            <span class="event-title-text">老城區民宿入住</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>入住巴拿馬最精華觀光區的老城區民宿。詳細住宿資訊請見「住宿」分頁。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">入住巴拿馬最精華觀光區的老城區民宿。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://maps.app.goo.gl/sPofucPCWRHU4u1k7?g_st=ipc" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-28" class="day-view">
-            <h2 class="section-title">7/28 (二) ｜ 老城區悠閒時光</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">7/28 (二) ｜ 老城區悠閒時光</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬老城區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-28">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">09:00 - 17:00</span>
-                        <div class="event-title">辦理事務與老城觀光</div>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理事務與老城觀光</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=老城區街景" alt="老城區" class="attraction-img">
-                        <p>全天為預留的辦事時間。若無事務，可在老城區內找間咖啡廳坐坐，享受悠閒的拉丁美洲時光。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map" target="_blank">巴拿馬老城區</a>
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=老城區街景" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">全天為預留的辦事時間。若無事務，可在老城區內找間咖啡廳坐坐，享受悠閒的拉丁美洲時光。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-29" class="day-view">
-            <h2 class="section-title">7/29 (三) ｜ 飛往加州</h2>
+            <h2 class="section-title"><span class="day-title-text">7/29 (三) ｜ 飛往加州</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
             <div class="daily-summary-section">
-                <div class="map-iframe-container">
-                    <iframe src="https://maps.google.com/maps?q=Maple+Tree+Inn+Sunnyvale&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
-                <a href="https://www.google.com/maps/dir/?api=1&origin=PTY+機場&destination=Multiplaza" class="btn-full-map" target="_blank">開啟當日多點導航</a>
             </div>
-            <div class="timeline">
-                <details>
+            <div class="timeline" id="timeline-29">
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">12:38 - 17:59</span>
-                        <div class="event-title">飛往舊金山 (SFO)</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往舊金山 (SFO)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘巴拿馬航空 (CM408) 前往舊金山。詳細航班資訊請見「機票」分頁。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM408</strong><br>12:38 PTY ➔ 17:59 SFO</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
-                <details>
+                <details class="itinerary-block">
                     <summary>
                         <span class="time">19:00 - 20:00</span>
-                        <div class="event-title">Cupertino 旅館入住</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Cupertino 旅館入住</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>抵達加州後，前往 Maple Tree Inn 辦理入住休息。詳細住宿資訊請見「住宿」分頁。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達加州後，前往 Maple Tree Inn 辦理入住休息。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-spot-map btn-location normal-map-target" target="_blank">Maple Tree Inn</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-30" class="day-view">
-            <h2 class="section-title">7/30 (四) ｜ 採買與親友餐敘</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">7/30 (四) ｜ 採買與親友餐敘</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州相聚" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-30">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">10:00 - 17:00</span>
-                        <div class="event-title">Cupertino 購物與相聚</div>
+                        <div class="event-title">
+                            <span class="event-title-text">Cupertino 購物與相聚</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>在 Cupertino 當地輕鬆採買，並與石叔叔溫馨餐敘，分享中南美洲的旅行點滴。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map" target="_blank">Cupertino</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">在 Cupertino 當地輕鬆採買，並與石叔叔溫馨餐敘，分享中南美洲的旅行點滴。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map btn-location normal-map-target" target="_blank">Cupertino</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-31" class="day-view">
-            <h2 class="section-title">7/31 (五) ｜ 加州慢活</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">7/31 (五) ｜ 加州慢活</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州慢活" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-31">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">10:00 - 18:00</span>
-                        <div class="event-title">全天自由活動</div>
+                        <div class="event-title">
+                            <span class="event-title-text">全天自由活動</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>享受沒有行程表的一天，在灣區感受舒適的加州陽光，為隔日的長途飛行儲備體力。</p>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">享受沒有行程表的一天，在灣區感受舒適的加州陽光，為隔日的長途飛行儲備體力。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map btn-location normal-map-target" target="_blank">Cupertino</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-01" class="day-view">
-            <h2 class="section-title">8/1 (六) ｜ 踏上歸途</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">8/1 (六) ｜ 踏上歸途</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="timeline" id="timeline-01">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">01:00 - 04:40 (+1)</span>
-                        <div class="event-title">飛往台灣 (TPE)</div>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往台灣 (TPE)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>搭乘長榮航空 (BR27) 返回熟悉的家。詳細航班資訊請見「機票」分頁。</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map" target="_blank">舊金山機場 (SFO)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 長榮航空 BR27</strong><br>01:00 SFO ➔ 04:40(+1) TPE</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
         </div>
 
         <div id="day-02" class="day-view">
-            <h2 class="section-title">8/2 (日) ｜ 平安抵達</h2>
-            <div class="timeline">
-                <details>
+            <h2 class="section-title"><span class="day-title-text">8/2 (日) ｜ 平安抵達</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="timeline" id="timeline-02">
+                <details class="itinerary-block" open>
                     <summary>
                         <span class="time">04:40 - 05:30</span>
-                        <div class="event-title">抵達台灣</div>
+                        <div class="event-title">
+                            <span class="event-title-text">抵達台灣</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
                     </summary>
                     <div class="details-content">
-                        <p>清晨平安降落於台灣，為這趟跨國之旅畫下完美的句點！</p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map" target="_blank">桃園機場 (TPE)</a>
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">清晨平安降落於台灣，為這趟跨國之旅畫下完美的句點！</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">桃園機場 (TPE)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
                     </div>
                 </details>
             </div>
@@ -1258,252 +1502,817 @@
     </div> <div id="view-flights" class="main-view">
         <h2 class="section-title">航班資訊統整</h2>
         
-        <details class="flight-category" open>
+        <details class="flight-category" open id="flight-group-parents">
             <summary>爸媽的航班</summary>
-            
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>巴拿馬航空 CM409</span>
+                    <span class="flight-airline">巴拿馬航空 CM409</span>
                     <span class="tag">爸媽</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="port"><h2 class="flight-dep-code">SFO</h2><p class="flight-dep-name">舊金山</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="port"><h2 class="flight-arr-code">PTY</h2><p class="flight-arr-name">巴拿馬</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/17 20:16</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/18 05:35</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/17 20:16</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/18 05:35</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/cm409" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
         </details>
 
-        <details class="flight-category" open>
+        <details class="flight-category" open id="flight-group-kids">
             <summary>奇叮的航班</summary>
-            
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>長榮航空 BR28</span>
+                    <span class="flight-airline">長榮航空 BR28</span>
                     <span class="tag">奇叮</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>TPE</h2><p>台北</p></div>
+                    <div class="port"><h2 class="flight-dep-code">TPE</h2><p class="flight-dep-name">台北</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="port"><h2 class="flight-arr-code">SFO</h2><p class="flight-arr-name">舊金山</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/17 23:40</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/17 20:35</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/17 23:40</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/17 20:35</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/br28" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
-
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>長榮航空 BR3181</span>
+                    <span class="flight-airline">長榮航空 BR3181</span>
                     <span class="tag">奇叮</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="port"><h2 class="flight-dep-code">SFO</h2><p class="flight-dep-name">舊金山</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="port"><h2 class="flight-arr-code">PTY</h2><p class="flight-arr-name">巴拿馬</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/18 01:12</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/18 10:27</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/18 01:12</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/18 10:27</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/br3181" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
         </details>
 
-        <details class="flight-category" open>
+        <details class="flight-category" open id="flight-group-all">
             <summary>全家共乘航班</summary>
-
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>巴拿馬航空 CM120</span>
+                    <span class="flight-airline">巴拿馬航空 CM120</span>
                     <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="port"><h2 class="flight-dep-code">PTY</h2><p class="flight-dep-name">巴拿馬</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>MEX</h2><p>墨西哥城</p></div>
+                    <div class="port"><h2 class="flight-arr-code">MEX</h2><p class="flight-arr-name">墨西哥城</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/23 09:25</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/23 12:10</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/23 09:25</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/23 12:10</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/cm120" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
-
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>巴拿馬航空 CM137</span>
+                    <span class="flight-airline">巴拿馬航空 CM137</span>
                     <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>MEX</h2><p>墨西哥城</p></div>
+                    <div class="port"><h2 class="flight-dep-code">MEX</h2><p class="flight-dep-name">墨西哥城</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="port"><h2 class="flight-arr-code">PTY</h2><p class="flight-arr-name">巴拿馬</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/27 09:50</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/27 14:36</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/27 09:50</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/27 14:36</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/cm137" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
-
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>巴拿馬航空 CM408</span>
+                    <span class="flight-airline">巴拿馬航空 CM408</span>
                     <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>PTY</h2><p>巴拿馬</p></div>
+                    <div class="port"><h2 class="flight-dep-code">PTY</h2><p class="flight-dep-name">巴拿馬</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="port"><h2 class="flight-arr-code">SFO</h2><p class="flight-arr-name">舊金山</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>7/29 12:38</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>7/29 17:59</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/29 12:38</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/29 17:59</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/cm408" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
-
             <div class="flight-ticket">
                 <div class="ticket-header">
-                    <span>長榮航空 BR27</span>
+                    <span class="flight-airline">長榮航空 BR27</span>
                     <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
                 </div>
                 <div class="ticket-body">
-                    <div class="port"><h2>SFO</h2><p>舊金山</p></div>
+                    <div class="port"><h2 class="flight-dep-code">SFO</h2><p class="flight-dep-name">舊金山</p></div>
                     <div class="flight-icon">➔</div>
-                    <div class="port"><h2>TPE</h2><p>台北</p></div>
+                    <div class="port"><h2 class="flight-arr-code">TPE</h2><p class="flight-arr-name">台北</p></div>
                 </div>
                 <div class="ticket-footer">
-                    <div class="time-block"><span>出發</span><strong>8/1 01:00</strong></div>
-                    <div class="time-block"><span>抵達</span><strong>8/2 04:40</strong></div>
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">8/1 01:00</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">8/2 04:40</strong></div>
                     <a href="https://www.flightradar24.com/data/flights/br27" class="btn-track" target="_blank">追蹤航班狀態</a>
                 </div>
             </div>
         </details>
+    </div>
 
-    </div> <div id="view-accommodations" class="main-view">
+    <div id="view-accommodations" class="main-view">
         <h2 class="section-title">住宿資訊統整</h2>
-        
-        <div class="accom-card">
-            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬海景民宿" alt="巴拿馬住宿" class="accom-img">
-            <span class="accom-dates">入住：7/18 - 7/23 (5晚)</span>
-            <h3 class="accom-title">巴拿馬市區海景民宿</h3>
-            <p class="accom-desc">靠近市區 Hilton、交通方便（去各辦事地點都算方便）的海景民宿，2房2衛浴～<br>（已多訂前一天，爸媽抵達當天可以直接 check-in）</p>
-            <div class="accom-actions">
-                <a href="https://www.airbnb.com/l/KdANsAqr" class="btn-accom btn-airbnb" target="_blank">Airbnb</a>
+        <div id="hotels-container">
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">巴拿馬市區海景民宿</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬海景民宿" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/18 - 7/23 (5晚)</span>
+                <p class="accom-desc hotel-desc">靠近市區 Hilton、交通方便（去各辦事地點都算方便）的海景民宿，2房2衛浴～<br>（已多訂前一天，爸媽抵達當天可以直接 check-in）</p>
+                <div class="accom-actions">
+                    <a href="https://www.airbnb.com/l/KdANsAqr" class="btn-accom btn-airbnb hotel-link" target="_blank">Airbnb</a>
+                    <a href="https://maps.app.goo.gl/Ehs9tphhYNVRWku2A?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                </div>
+            </div>
+
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">Sheraton Maria Isabel</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Sheraton+CDMX" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/23 - 7/27 (4晚)</span>
+                <p class="accom-desc hotel-desc">位於墨西哥城 (CDMX) 的精華地段，房型為 2 間豪華雙人房。</p>
+                <div class="accom-actions">
+                    <a href="https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                </div>
+            </div>
+
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">巴拿馬老城區民宿</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區民宿" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/27 - 7/29 (2晚)</span>
+                <p class="accom-desc hotel-desc">位於巴拿馬最精華觀光區的老城區民宿，房型為 2房2衛浴。</p>
+                <div class="accom-actions">
+                    <a href="https://www.airbnb.com/l/FEdGpGTk" class="btn-accom btn-airbnb hotel-link" target="_blank">Airbnb</a>
+                    <a href="https://maps.app.goo.gl/sPofucPCWRHU4u1k7?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                </div>
+            </div>
+
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">Maple Tree Inn</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Maple+Tree+Inn" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/29 - 7/31 (2晚)</span>
+                <p class="accom-desc hotel-desc">位於加州 Cupertino。（子奇、叮噹入住）</p>
+                <div class="accom-actions">
+                    <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="accom-card">
-            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Sheraton+CDMX" alt="墨西哥城住宿" class="accom-img">
-            <span class="accom-dates">入住：7/23 - 7/27 (4晚)</span>
-            <h3 class="accom-title">Sheraton Maria Isabel</h3>
-            <p class="accom-desc">位於墨西哥城 (CDMX) 的精華地段，房型為 2 間豪華雙人房。</p>
-            <div class="accom-actions">
-                <a href="https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc" class="btn-accom btn-map" target="_blank">地圖位置</a>
-            </div>
-        </div>
-
-        <div class="accom-card">
-            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區民宿" alt="巴拿馬老城區住宿" class="accom-img">
-            <span class="accom-dates">入住：7/27 - 7/29 (2晚)</span>
-            <h3 class="accom-title">巴拿馬老城區民宿</h3>
-            <p class="accom-desc">位於巴拿馬最精華觀光區的老城區民宿，房型為 2房2衛浴。</p>
-            <div class="accom-actions">
-                <a href="https://www.airbnb.com/l/FEdGpGTk" class="btn-accom btn-airbnb" target="_blank">Airbnb</a>
-            </div>
-        </div>
-
-        <div class="accom-card">
-            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Maple+Tree+Inn" alt="加州住宿" class="accom-img">
-            <span class="accom-dates">入住：7/29 - 7/31 (2晚)</span>
-            <h3 class="accom-title">Maple Tree Inn</h3>
-            <p class="accom-desc">位於加州 Cupertino。（子奇、叮噹入住）</p>
-            <div class="accom-actions">
-                <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-accom btn-map" target="_blank">地圖位置</a>
-            </div>
-        </div>
-
-    </div> <nav class="bottom-nav">
+    <nav class="bottom-nav">
         <a href="#" class="nav-item active" onclick="switchMainView('view-itinerary', this, 'Family Trip 2026')">
             <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             </div>
             <span>行程</span>
         </a>
         <a href="#" class="nav-item" onclick="switchMainView('view-flights', this, '機票統整')">
             <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-1.5 1.5L8 19l2.5-3.5 3 3 4 6 1.2-.7-.4-5.6z"/>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-.5-.5-2.5 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-3 3-3-1-1.5 1.5L8 19l2.5-3.5 3 3 4 6 1.2-.7-.4-5.6z"/></svg>
             </div>
             <span>機票</span>
         </a>
         <a href="#" class="nav-item" onclick="switchMainView('view-accommodations', this, '住宿統整')">
             <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M2 4v16"></path>
-                    <path d="M2 8h18a2 2 0 0 1 2 2v10"></path>
-                    <path d="M2 17h20"></path>
-                    <path d="M6 8v9"></path>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 0 1 2 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>
             </div>
             <span>住宿</span>
         </a>
     </nav>
 
+    <div class="fab-btn" onclick="openAddModal()">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">新增 / 編輯</h3>
+                <button class="close-btn" onclick="closeEditModal()">×</button>
+            </div>
+
+            <form id="form-itinerary-normal" class="edit-form" onsubmit="saveNormalItinerary(event)">
+                <div class="form-group">
+                    <label>標題名稱</label>
+                    <input type="text" id="n-iti-title" class="form-control" placeholder="例如：城區歷史巡禮" required>
+                </div>
+                <div class="form-group">
+                    <label>參觀時間 (純文字)</label>
+                    <input type="text" id="n-iti-time" class="form-control" placeholder="例如：14:30 - 19:30">
+                </div>
+                <div class="form-group">
+                    <label>說明介紹</label>
+                    <textarea id="n-iti-desc" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>圖片網址 (URL)</label>
+                    <input type="url" id="n-iti-img" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Google Map 網址 (URL)</label>
+                    <input type="url" id="n-iti-map" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>補充資料網址 (URL)</label>
+                    <input type="url" id="n-iti-link" class="form-control" placeholder="輸入相關網站或參考連結...">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">儲存行程</button>
+                    <button type="button" class="btn-delete" onclick="deleteCurrentItem()" style="display:none;">刪除</button>
+                </div>
+            </form>
+
+            <form id="form-spot" class="edit-form" onsubmit="saveSpot(event)">
+                <div class="form-group">
+                    <label>景點標題</label>
+                    <input type="text" id="s-title" class="form-control" placeholder="例如：憲法廣場" required>
+                </div>
+                <div class="form-group">
+                    <label>景點介紹</label>
+                    <textarea id="s-desc" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>圖片網址 (URL)</label>
+                    <input type="url" id="s-img" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Google Map 網址 (URL)</label>
+                    <input type="url" id="s-map" class="form-control">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">儲存景點</button>
+                    <button type="button" class="btn-delete" onclick="deleteCurrentItem()" style="display:none;">刪除</button>
+                </div>
+            </form>
+
+            <form id="form-flights" class="edit-form" onsubmit="saveFlight(event)">
+                <div class="form-group radio-group">
+                    <label class="radio-label"><input type="radio" name="fl-owner" value="all" checked> 全家</label>
+                    <label class="radio-label"><input type="radio" name="fl-owner" value="parents"> 爸媽</label>
+                    <label class="radio-label"><input type="radio" name="fl-owner" value="kids"> 奇叮</label>
+                </div>
+                <div class="form-group">
+                    <label>飛機航班 (如：長榮航空 BR28)</label>
+                    <input type="text" id="fl-airline" class="form-control" required>
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>出發代碼/名稱</label>
+                        <input type="text" id="fl-dep" class="form-control" placeholder="TPE, 台北" required>
+                    </div>
+                    <div style="flex:1;">
+                        <label>目的代碼/名稱</label>
+                        <input type="text" id="fl-arr" class="form-control" placeholder="SFO, 舊金山" required>
+                    </div>
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>出發時間 (文字)</label>
+                        <input type="text" id="fl-time-dep" class="form-control" placeholder="7/17 23:40">
+                    </div>
+                    <div style="flex:1;">
+                        <label>抵達時間 (文字)</label>
+                        <input type="text" id="fl-time-arr" class="form-control" placeholder="7/17 20:35">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">儲存航班</button>
+                    <button type="button" class="btn-delete" onclick="deleteCurrentItem()" style="display:none;">刪除</button>
+                </div>
+            </form>
+
+            <form id="form-hotels" class="edit-form" onsubmit="saveHotel(event)">
+                <div class="form-group">
+                    <label>飯店名稱</label>
+                    <input type="text" id="ht-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>入住期間 (文字)</label>
+                    <input type="text" id="ht-dates" class="form-control" placeholder="例如：7/18 - 7/23 (5晚)">
+                </div>
+                <div class="form-group">
+                    <label>房型與備註</label>
+                    <textarea id="ht-desc" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>圖片網址</label>
+                    <input type="url" id="ht-img" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Airbnb 網址</label>
+                    <input type="url" id="ht-link" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Google Map 網址</label>
+                    <input type="url" id="ht-link-map" class="form-control">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">儲存住宿</button>
+                    <button type="button" class="btn-delete" onclick="deleteCurrentItem()" style="display:none;">刪除</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="toast" id="toastMsg">內容已儲存！</div>
+
     <script>
+        /* ================= 資料儲存 (Local Storage) ================= */
+        // 每次編輯/新增/刪除後都會呼叫此函數，把資料存進瀏覽器
+        function saveState() {
+            const data = {
+                titles: {},
+                banners: {},
+                timelines: {},
+                flights: {
+                    parents: document.getElementById('flight-group-parents').innerHTML,
+                    kids: document.getElementById('flight-group-kids').innerHTML,
+                    all: document.getElementById('flight-group-all').innerHTML
+                },
+                hotels: document.getElementById('hotels-container').innerHTML
+            };
+
+            document.querySelectorAll('.day-view').forEach(dayView => {
+                const id = dayView.id;
+                const titleEl = dayView.querySelector('.day-title-text');
+                if (titleEl) data.titles[id] = titleEl.innerText;
+
+                const bannerEl = dayView.querySelector('.daily-banner-img');
+                if (bannerEl) data.banners[id] = bannerEl.src;
+
+                const timelineEl = dayView.querySelector('.timeline');
+                if (timelineEl) data.timelines[id] = timelineEl.innerHTML;
+            });
+
+            localStorage.setItem('FamilyTrip2026Data', JSON.stringify(data));
+        }
+
+        // 載入時讀取資料
+        function loadState() {
+            const saved = localStorage.getItem('FamilyTrip2026Data');
+            if (!saved) return;
+
+            try {
+                const data = JSON.parse(saved);
+                document.querySelectorAll('.day-view').forEach(dayView => {
+                    const id = dayView.id;
+                    if (data.titles[id] && dayView.querySelector('.day-title-text')) {
+                        dayView.querySelector('.day-title-text').innerText = data.titles[id];
+                    }
+                    if (data.banners[id] && dayView.querySelector('.daily-banner-img')) {
+                        dayView.querySelector('.daily-banner-img').src = data.banners[id];
+                    }
+                    if (data.timelines[id] && dayView.querySelector('.timeline')) {
+                        dayView.querySelector('.timeline').innerHTML = data.timelines[id];
+                    }
+                });
+
+                if (data.flights) {
+                    if (data.flights.parents) document.getElementById('flight-group-parents').innerHTML = data.flights.parents;
+                    if (data.flights.kids) document.getElementById('flight-group-kids').innerHTML = data.flights.kids;
+                    if (data.flights.all) document.getElementById('flight-group-all').innerHTML = data.flights.all;
+                }
+
+                if (data.hotels) {
+                    document.getElementById('hotels-container').innerHTML = data.hotels;
+                }
+            } catch (e) {
+                console.error("無法載入儲存的資料", e);
+            }
+        }
+
+        // 畫面載入時執行讀取
+        window.addEventListener('DOMContentLoaded', loadState);
+
+        /* ================= 頁面與 UI 邏輯 ================= */
+        function switchMainView(viewId, btnElement, titleText) {
+            document.querySelectorAll('.main-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            btnElement.classList.add('active');
+            
+            const dayNav = document.getElementById('navBar');
+            if(viewId === 'view-itinerary') {
+                dayNav.style.display = 'flex';
+                document.getElementById('header-title').innerText = 'Family Trip 2026';
+            } else {
+                dayNav.style.display = 'none';
+                document.getElementById('header-title').innerText = titleText;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function showDay(dayId, btnElement) {
-            const views = document.querySelectorAll('.day-view');
-            views.forEach(view => view.classList.remove('active'));
-            
-            const tabs = document.querySelectorAll('.day-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
+            document.querySelectorAll('.day-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(dayId).classList.add('active');
             btnElement.classList.add('active');
-
+            
             const navBar = document.getElementById('navBar');
             const scrollLeft = btnElement.offsetLeft - (navBar.offsetWidth / 2) + (btnElement.offsetWidth / 2);
             navBar.scrollTo({ left: scrollLeft, behavior: 'smooth' });
         }
 
-        function switchMainView(viewId, btnElement, titleText) {
-            const mainViews = document.querySelectorAll('.main-view');
-            mainViews.forEach(view => view.classList.remove('active'));
-            
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            
-            document.getElementById(viewId).classList.add('active');
-            btnElement.classList.add('active');
-
-            const dayNav = document.getElementById('navBar');
-            const headerTitle = document.getElementById('header-title');
-            
-            if(viewId === 'view-itinerary') {
-                dayNav.style.display = 'flex';
-                headerTitle.innerText = 'Family Trip 2026';
-            } else {
-                dayNav.style.display = 'none';
-                headerTitle.innerText = titleText;
+        function editDayTitle(btn) {
+            const span = btn.previousElementSibling;
+            const newTitle = prompt("編輯每日標題：", span.innerText);
+            if (newTitle !== null && newTitle.trim() !== "") {
+                span.innerText = newTitle.trim();
+                saveState(); // 存檔
+                showToast("標題已更新！");
             }
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function toggleBannerOverlay(container) { container.classList.toggle('show-overlay'); }
+
+        function updateBanner(e, overlayBtn) {
+            e.stopPropagation(); 
+            const container = overlayBtn.closest('.banner-container');
+            const imgElement = container.querySelector('.daily-banner-img');
+            const newUrl = prompt("請輸入新的 Banner 圖片網址 (URL)：", imgElement.src);
+            
+            if (newUrl && newUrl.trim() !== "") {
+                imgElement.src = newUrl;
+                saveState(); // 存檔
+                showToast("Banner 已更新！");
+            }
+            container.classList.remove('show-overlay');
+        }
+
+        function showToast(msg = "內容已儲存！") {
+            const toast = document.getElementById('toastMsg');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        /* ================= 彈窗與刪除 ================= */
+        const editModal = document.getElementById('editModal');
+        const modalTitle = document.getElementById('modal-title');
+        let currentEditNode = null; 
+        let currentParentContainer = null; 
+
+        function openModalUi(title) {
+            editModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            modalTitle.innerText = title;
+            // 決定要不要顯示刪除按鈕 (新增時隱藏，編輯時顯示)
+            document.querySelectorAll('.btn-delete').forEach(b => b.style.display = currentEditNode ? 'block' : 'none');
+        }
+
+        function closeEditModal() {
+            editModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentEditNode = null;
+            currentParentContainer = null;
+        }
+        editModal.addEventListener('click', e => { if(e.target === editModal) closeEditModal(); });
+
+        function deleteCurrentItem() {
+            if (!currentEditNode) return;
+            if (confirm("確定要刪除這個項目嗎？這無法復原喔！")) {
+                currentEditNode.remove();
+                saveState(); // 存檔
+                closeEditModal();
+                showToast("已刪除項目！");
+            }
+        }
+
+        function openAddModal() {
+            currentEditNode = null; 
+            currentParentContainer = null;
+            document.querySelectorAll('.edit-form').forEach(f => { f.style.display = 'none'; f.reset(); });
+
+            if (document.getElementById('view-itinerary').classList.contains('active')) {
+                document.getElementById('form-itinerary-normal').style.display = 'flex';
+                openModalUi('新增 行程');
+            } else if (document.getElementById('view-flights').classList.contains('active')) {
+                document.getElementById('form-flights').style.display = 'flex';
+                openModalUi('新增 航班');
+            } else if (document.getElementById('view-accommodations').classList.contains('active')) {
+                document.getElementById('form-hotels').style.display = 'flex';
+                openModalUi('新增 住宿');
+            }
+        }
+
+        /* ================= 一般行程 ================= */
+        function editItinerary(btn, event) {
+            event.preventDefault(); 
+            document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+            
+            const detailsNode = btn.closest('details');
+            currentEditNode = detailsNode;
+            
+            document.getElementById('n-iti-title').value = detailsNode.querySelector('.event-title-text').innerText;
+            document.getElementById('n-iti-time').value = detailsNode.querySelector('.time').innerText;
+            
+            const descEl = detailsNode.querySelector('.normal-desc-text');
+            document.getElementById('n-iti-desc').value = descEl ? descEl.innerHTML.replace(/<br\s*[\/]?>/gi, "\n") : '';
+            
+            const img = detailsNode.querySelector('.normal-img-target');
+            document.getElementById('n-iti-img').value = (img && img.style.display !== 'none') ? img.src : '';
+            
+            const map = detailsNode.querySelector('.normal-map-target');
+            document.getElementById('n-iti-map').value = (map && map.style.display !== 'none') ? map.href : '';
+
+            const link = detailsNode.querySelector('.normal-link-target');
+            document.getElementById('n-iti-link').value = (link && link.style.display !== 'none') ? link.href : '';
+
+            document.getElementById('form-itinerary-normal').style.display = 'flex';
+            openModalUi('編輯 行程');
+        }
+
+        function saveNormalItinerary(e) {
+            e.preventDefault();
+            const title = document.getElementById('n-iti-title').value;
+            const time = document.getElementById('n-iti-time').value;
+            const desc = document.getElementById('n-iti-desc').value.replace(/\n/g, "<br>");
+            const img = document.getElementById('n-iti-img').value;
+            const map = document.getElementById('n-iti-map').value;
+            const link = document.getElementById('n-iti-link').value;
+
+            if (currentEditNode) {
+                currentEditNode.querySelector('.event-title-text').innerText = title;
+                currentEditNode.querySelector('.time').innerText = time;
+                
+                let normalInfo = currentEditNode.querySelector('.normal-info');
+                if(normalInfo) {
+                    const descEl = normalInfo.querySelector('.normal-desc-text');
+                    if(descEl) descEl.innerHTML = desc;
+                    
+                    const imgEl = normalInfo.querySelector('.normal-img-target');
+                    if(imgEl) { imgEl.src = img; imgEl.style.display = img ? 'block' : 'none'; }
+                    
+                    const mapEl = normalInfo.querySelector('.normal-map-target');
+                    if(mapEl) { mapEl.href = map; mapEl.style.display = map ? 'inline-flex' : 'none'; }
+
+                    const linkEl = normalInfo.querySelector('.normal-link-target');
+                    if(linkEl) { linkEl.href = link; linkEl.style.display = link ? 'inline-flex' : 'none'; }
+                }
+            } else {
+                const html = `
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">${time}</span>
+                        <div class="event-title">
+                            <span class="event-title-text">${title}</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="${img}" class="attraction-img normal-img-target" style="display:${img?'block':'none'};">
+                            <p class="desc-text normal-desc-text">${desc}</p>
+                            <div class="link-actions">
+                                <a href="${map}" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:${map?'inline-flex':'none'};">Google Map</a>
+                                <a href="${link}" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:${link?'inline-flex':'none'};">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點景點</button>
+                    </div>
+                </details>`;
+                const activeTimeline = document.querySelector('.day-view.active .timeline');
+                if(activeTimeline) activeTimeline.insertAdjacentHTML('beforeend', html);
+            }
+            saveState(); // 存檔
+            closeEditModal();
+            showToast();
+        }
+
+        /* ================= 重點景點圖卡 ================= */
+        function openAddSpotModal(btn, event) {
+            event.preventDefault();
+            currentEditNode = null;
+            currentParentContainer = btn.closest('.details-content').querySelector('.spots-container');
+            
+            document.querySelectorAll('.edit-form').forEach(f => { f.style.display = 'none'; f.reset(); });
+            document.getElementById('form-spot').style.display = 'flex';
+            openModalUi('新增 重點景點');
+        }
+
+        function editSpot(btn, event) {
+            event.preventDefault(); 
+            document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+            
+            const spotCard = btn.closest('.spot-card');
+            currentEditNode = spotCard;
+            
+            document.getElementById('s-title').value = spotCard.querySelector('.spot-title span').innerText;
+            document.getElementById('s-desc').value = spotCard.querySelector('.spot-desc').innerHTML.replace(/<br\s*[\/]?>/gi, "\n");
+            
+            const img = spotCard.querySelector('.img-target');
+            document.getElementById('s-img').value = (img && img.style.display !== 'none') ? img.src : '';
+            
+            const map = spotCard.querySelector('.map-target');
+            document.getElementById('s-map').value = (map && map.style.display !== 'none') ? map.href : '';
+
+            document.getElementById('form-spot').style.display = 'flex';
+            openModalUi('編輯 景點圖卡');
+        }
+
+        function saveSpot(e) {
+            e.preventDefault();
+            const title = document.getElementById('s-title').value;
+            const desc = document.getElementById('s-desc').value.replace(/\n/g, "<br>");
+            const img = document.getElementById('s-img').value;
+            const map = document.getElementById('s-map').value;
+
+            if (currentEditNode) {
+                currentEditNode.querySelector('.spot-title span').innerText = title;
+                currentEditNode.querySelector('.spot-desc').innerHTML = desc;
+                
+                const imgEl = currentEditNode.querySelector('.img-target');
+                if(imgEl) { imgEl.src = img; imgEl.style.display = img ? 'block' : 'none'; }
+                
+                const mapEl = currentEditNode.querySelector('.map-target');
+                if(mapEl) { mapEl.href = map; mapEl.style.display = map ? 'inline-flex' : 'none'; }
+            } else if(currentParentContainer) {
+                const html = `
+                <div class="spot-card">
+                    <h4 class="spot-title"><span>${title}</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                    <img src="${img}" class="spot-img img-target" style="display:${img?'block':'none'};">
+                    <p class="spot-desc desc-text">${desc}</p>
+                    <a href="${map}" class="btn-spot-map btn-location map-target" target="_blank" style="display:${map?'inline-flex':'none'};">Google Map</a>
+                </div>`;
+                currentParentContainer.insertAdjacentHTML('beforeend', html);
+            }
+            saveState(); // 存檔
+            closeEditModal();
+            showToast();
+        }
+
+        /* ================= 機票 ================= */
+        function editFlight(btn) {
+            document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+            const ticket = btn.closest('.flight-ticket');
+            currentEditNode = ticket;
+
+            const depCode = ticket.querySelector('.flight-dep-code').innerText;
+            const depName = ticket.querySelector('.flight-dep-name').innerText;
+            const arrCode = ticket.querySelector('.flight-arr-code').innerText;
+            const arrName = ticket.querySelector('.flight-arr-name').innerText;
+
+            document.getElementById('fl-airline').value = ticket.querySelector('.flight-airline').innerText;
+            document.getElementById('fl-dep').value = `${depCode}, ${depName}`;
+            document.getElementById('fl-arr').value = `${arrCode}, ${arrName}`;
+            document.getElementById('fl-time-dep').value = ticket.querySelector('.flight-dep-time').innerText;
+            document.getElementById('fl-time-arr').value = ticket.querySelector('.flight-arr-time').innerText;
+
+            const tag = ticket.querySelector('.tag').innerText;
+            if(tag==='爸媽') document.querySelector('input[name="fl-owner"][value="parents"]').checked = true;
+            else if(tag==='奇叮') document.querySelector('input[name="fl-owner"][value="kids"]').checked = true;
+            else document.querySelector('input[name="fl-owner"][value="all"]').checked = true;
+
+            document.getElementById('form-flights').style.display = 'flex';
+            openModalUi('編輯 航班');
+        }
+
+        function saveFlight(e) {
+            e.preventDefault();
+            const airline = document.getElementById('fl-airline').value;
+            const depRaw = document.getElementById('fl-dep').value.split(',');
+            const arrRaw = document.getElementById('fl-arr').value.split(',');
+            const tDep = document.getElementById('fl-time-dep').value;
+            const tArr = document.getElementById('fl-time-arr').value;
+            
+            const depCode = depRaw[0] ? depRaw[0].trim() : 'N/A';
+            const depName = depRaw[1] ? depRaw[1].trim() : '';
+            const arrCode = arrRaw[0] ? arrRaw[0].trim() : 'N/A';
+            const arrName = arrRaw[1] ? arrRaw[1].trim() : '';
+
+            const ownerVal = document.querySelector('input[name="fl-owner"]:checked').value;
+            let tagText = '全家'; let targetGroup = 'flight-group-all';
+            if(ownerVal === 'parents') { tagText = '爸媽'; targetGroup = 'flight-group-parents'; }
+            if(ownerVal === 'kids') { tagText = '奇叮'; targetGroup = 'flight-group-kids'; }
+
+            if (currentEditNode) {
+                currentEditNode.querySelector('.flight-airline').innerText = airline;
+                currentEditNode.querySelector('.tag').innerText = tagText;
+                currentEditNode.querySelector('.flight-dep-code').innerText = depCode;
+                currentEditNode.querySelector('.flight-dep-name').innerText = depName;
+                currentEditNode.querySelector('.flight-arr-code').innerText = arrCode;
+                currentEditNode.querySelector('.flight-arr-name').innerText = arrName;
+                currentEditNode.querySelector('.flight-dep-time').innerText = tDep;
+                currentEditNode.querySelector('.flight-arr-time').innerText = tArr;
+                
+                const currentParentId = currentEditNode.closest('details.flight-category').id;
+                if(currentParentId !== targetGroup) document.getElementById(targetGroup).appendChild(currentEditNode);
+            } else {
+                const html = `
+                <div class="flight-ticket">
+                    <div class="ticket-header">
+                        <span class="flight-airline">${airline}</span>
+                        <span class="tag">${tagText}</span>
+                        <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
+                    </div>
+                    <div class="ticket-body">
+                        <div class="port"><h2 class="flight-dep-code">${depCode}</h2><p class="flight-dep-name">${depName}</p></div>
+                        <div class="flight-icon">➔</div>
+                        <div class="port"><h2 class="flight-arr-code">${arrCode}</h2><p class="flight-arr-name">${arrName}</p></div>
+                    </div>
+                    <div class="ticket-footer">
+                        <div class="time-block"><span>出發</span><strong class="flight-dep-time">${tDep}</strong></div>
+                        <div class="time-block"><span>抵達</span><strong class="flight-arr-time">${tArr}</strong></div>
+                        <a href="#" class="btn-track">追蹤航班狀態</a>
+                    </div>
+                </div>`;
+                document.getElementById(targetGroup).insertAdjacentHTML('beforeend', html);
+            }
+            saveState(); // 存檔
+            closeEditModal();
+            showToast();
+        }
+
+        /* ================= 住宿 ================= */
+        function editHotel(btn) {
+            document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+            const card = btn.closest('.accom-card');
+            currentEditNode = card;
+
+            document.getElementById('ht-name').value = card.querySelector('.hotel-name').innerText;
+            document.getElementById('ht-dates').value = card.querySelector('.hotel-dates').innerText;
+            document.getElementById('ht-desc').value = card.querySelector('.hotel-desc').innerHTML.replace(/<br\s*[\/]?>/gi, "\n");
+            
+            const img = card.querySelector('.hotel-img');
+            document.getElementById('ht-img').value = (img && img.style.display !== 'none') ? img.src : '';
+            
+            const link = card.querySelector('.hotel-link');
+            document.getElementById('ht-link').value = (link && link.style.display !== 'none') ? link.href : '';
+
+            const linkMap = card.querySelector('.hotel-link-map');
+            document.getElementById('ht-link-map').value = (linkMap && linkMap.style.display !== 'none') ? linkMap.href : '';
+
+            document.getElementById('form-hotels').style.display = 'flex';
+            openModalUi('編輯 住宿');
+        }
+
+        function saveHotel(e) {
+            e.preventDefault();
+            const name = document.getElementById('ht-name').value;
+            const dates = document.getElementById('ht-dates').value;
+            const desc = document.getElementById('ht-desc').value.replace(/\n/g, "<br>");
+            const img = document.getElementById('ht-img').value;
+            const link = document.getElementById('ht-link').value;
+            const map = document.getElementById('ht-link-map').value;
+
+            if (currentEditNode) {
+                currentEditNode.querySelector('.hotel-name').innerText = name;
+                currentEditNode.querySelector('.hotel-dates').innerText = dates;
+                currentEditNode.querySelector('.hotel-desc').innerHTML = desc;
+                
+                const imgEl = currentEditNode.querySelector('.hotel-img');
+                if(imgEl) { imgEl.src = img; imgEl.style.display = img ? 'block' : 'none'; }
+                
+                const linkEl = currentEditNode.querySelector('.hotel-link');
+                if(linkEl) { linkEl.href = link; linkEl.style.display = link ? 'inline-block' : 'none'; }
+
+                const mapEl = currentEditNode.querySelector('.hotel-link-map');
+                if(mapEl) { mapEl.href = map; mapEl.style.display = map ? 'inline-block' : 'none'; }
+
+            } else {
+                const html = `
+                <div class="accom-card">
+                    <img src="${img}" class="accom-img hotel-img" style="display:${img?'block':'none'};">
+                    <span class="accom-dates hotel-dates">${dates}</span>
+                    <h3 class="accom-title"><span class="hotel-name">${name}</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                    <p class="accom-desc hotel-desc">${desc}</p>
+                    <div class="accom-actions">
+                        <a href="${link}" class="btn-accom btn-airbnb hotel-link" target="_blank" style="display:${link?'inline-block':'none'};">Airbnb</a>
+                        <a href="${map}" class="btn-accom btn-map hotel-link-map" target="_blank" style="display:${map?'inline-block':'none'};">地圖位置</a>
+                    </div>
+                </div>`;
+                document.getElementById('hotels-container').insertAdjacentHTML('beforeend', html);
+            }
+            saveState(); // 存檔
+            closeEditModal();
+            showToast();
+        }
+
     </script>
 </body>
 </html>
+
