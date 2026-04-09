@@ -7,16 +7,16 @@
     
     <style>
         :root {
-            /* 時尚拉美風配色 */
-            --bg-color: #F7F4EF;       
-            --primary: #2D2A26;        
-            --accent-terra: #C05C42;   
-            --accent-agave: #4C6A5A;   
-            --line-color: #E2DCD0;     
-            --card-bg: #FFFFFF;        
+            /* 時尚拉美風配色 (Modern Latin Aesthetic) */
+            --bg-color: #F7F4EF;       /* 灰泥白 (Plaster) */
+            --primary: #2D2A26;        /* 深炭黑 */
+            --accent-terra: #C05C42;   /* 現代陶土紅 (Terracotta) */
+            --accent-agave: #4C6A5A;   /* 龍舌蘭綠 (Agave Green) */
+            --line-color: #E2DCD0;     /* 暖沙色線條 */
+            --card-bg: #FFFFFF;        /* 純白卡片 */
             --text-sub: #7A756C;
-            --ticket-bg: #F8F3E6;      
-            --ticket-text: #6B5B3E;    
+            --ticket-bg: #F8F3E6;      /* 清淡優雅的奶油沙色 */
+            --ticket-text: #6B5B3E;    /* 登機證柔和深色字 */
             --delete-color: #E74C3C;
         }
 
@@ -51,6 +51,28 @@
             text-transform: uppercase;
         }
 
+        .btn-export {
+            position: absolute;
+            right: 15px;
+            top: 22px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-export:hover {
+            background: var(--accent-terra);
+            border-color: var(--accent-terra);
+        }
+
         /* 日期選擇器 */
         .day-nav {
             display: flex;
@@ -59,6 +81,7 @@
             padding-bottom: 5px;
             scrollbar-width: none;
         }
+        
         .day-nav::-webkit-scrollbar { display: none; }
 
         .day-tab {
@@ -73,6 +96,7 @@
             transition: all 0.3s ease;
             letter-spacing: 1px;
         }
+
         .day-tab.active {
             background-color: var(--accent-terra);
             color: #FFFFFF;
@@ -89,7 +113,9 @@
             margin: 0 auto;
             padding: 25px 20px;
         }
+
         .main-view.active { display: block; }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -107,7 +133,12 @@
             margin-left: 8px;
             transition: all 0.2s;
         }
-        .btn-edit-tiny:hover { opacity: 1; color: var(--accent-terra); transform: scale(1.1); }
+
+        .btn-edit-tiny:hover {
+            opacity: 1;
+            color: var(--accent-terra);
+            transform: scale(1.1);
+        }
 
         /* ---------------- 行程頁面樣式 ---------------- */
         .day-view { display: none; }
@@ -126,6 +157,7 @@
         }
         .day-title-text { flex-grow: 1; }
 
+        /* 每日 Banner 區塊 */
         .daily-summary-section {
             background-color: var(--card-bg);
             border-radius: 16px; 
@@ -135,165 +167,447 @@
             border: 1px solid rgba(0,0,0,0.02);
             text-align: center;
         }
+
         .banner-container {
-            position: relative; width: 100%; border-radius: 10px; overflow: hidden; cursor: pointer;
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
         }
+
         .daily-banner-img {
-            width: 100%; height: 180px; object-fit: cover; display: block; transition: opacity 0.3s;
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s;
         }
+
         .banner-edit-overlay {
-            position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white;
-            border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none; 
         }
+
         .banner-container.show-overlay .daily-banner-img { opacity: 0.8; }
         .banner-container.show-overlay .banner-edit-overlay { opacity: 1; pointer-events: auto; }
 
         .timeline {
-            border-left: 1px solid var(--line-color); padding-left: 30px; margin-left: 10px;
-        }
-        .timeline details.itinerary-block { position: relative; margin-bottom: 35px; }
-        .timeline details.itinerary-block::before {
-            content: ''; position: absolute; left: -35px; top: 6px; width: 10px; height: 10px;
-            background-color: var(--bg-color); border: 2px solid var(--accent-terra); border-radius: 50%; z-index: 1; transition: all 0.3s ease;
-        }
-        .timeline details.itinerary-block[open]::before {
-            background-color: var(--accent-terra); box-shadow: 0 0 0 4px rgba(192, 92, 66, 0.1);
+            border-left: 1px solid var(--line-color);
+            padding-left: 30px;
+            margin-left: 10px;
         }
 
-        summary { font-size: 1.05rem; color: var(--primary); cursor: pointer; list-style: none; position: relative; outline: none; }
+        .timeline details.itinerary-block {
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .timeline details.itinerary-block::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--accent-terra);
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .timeline details.itinerary-block[open]::before {
+            background-color: var(--accent-terra);
+            box-shadow: 0 0 0 4px rgba(192, 92, 66, 0.1);
+        }
+
+        summary {
+            font-size: 1.05rem;
+            color: var(--primary);
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            outline: none;
+        }
+        
         summary::-webkit-details-marker { display: none; }
 
-        .time { display: block; color: var(--text-sub); font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; margin-bottom: 6px; }
-        .event-title { display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 1.15rem; }
+        .time {
+            display: block;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .event-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+
         .event-title-text { flex-grow: 1; }
-        .event-title::after { content: '+'; font-size: 1.3rem; color: var(--text-sub); font-weight: 300; margin-left: 10px; }
+
+        .event-title::after {
+            content: '+';
+            font-size: 1.3rem;
+            color: var(--text-sub);
+            font-weight: 300;
+            margin-left: 10px;
+        }
+
         .timeline details[open] .event-title::after { content: '−'; color: var(--accent-agave); }
         .timeline details[open] .event-title { color: var(--accent-agave); }
 
         .details-content { padding-top: 15px; padding-bottom: 5px; }
         .details-content p.normal-desc-text { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.7; }
         
+        .link-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+
         .btn-spot-map {
-            display: inline-flex; align-items: center; background-color: transparent; color: var(--accent-agave);
-            border: 1px solid var(--accent-agave); padding: 6px 12px; border-radius: 16px; text-decoration: none;
-            font-size: 0.8rem; font-weight: 600; margin-bottom: 15px; margin-right: 8px; transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            background-color: transparent;
+            color: var(--accent-agave);
+            border: 1px solid var(--accent-agave);
+            padding: 6px 12px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
+        
         .btn-spot-map:hover { background-color: var(--accent-agave); color: #fff; }
         .btn-spot-map.btn-location::before { content: '📍'; margin-right: 4px; }
         .btn-spot-map.btn-link::before { content: '🔗'; margin-right: 4px; }
 
+        /* 一般行程拱門圖片 */
         .attraction-img {
-            width: 100%; height: 360px; border-radius: 150px 150px 12px 12px; margin-bottom: 18px;
-            object-fit: cover; display: block; box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            width: 100%;
+            height: 360px; 
+            border-radius: 150px 150px 12px 12px; 
+            margin-bottom: 18px;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
+        /* 重點景點圖卡容器 */
         .spots-container { margin-top: 20px; }
-        .spot-card {
-            background-color: #FFFFFF; padding: 16px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-            margin-bottom: 25px; border: 1px solid rgba(0,0,0,0.02); text-align: left; position: relative;
-        }
-        .spot-img {
-            width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; margin-bottom: 15px; display: block;
-        }
-        .spot-title {
-            font-size: 1.15rem; color: var(--accent-terra); margin: 0 0 8px 0; font-weight: 700; display: flex; justify-content: space-between;
-        }
-        .spot-desc { font-size: 0.95rem; color: #555; margin: 0 0 15px 0; line-height: 1.6; }
 
+        .spot-card {
+            background-color: #FFFFFF;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid rgba(0,0,0,0.02);
+            text-align: left;
+            position: relative;
+        }
+
+        .spot-img {
+            width: 100%;
+            aspect-ratio: 1 / 1; 
+            object-fit: cover;
+            border-radius: 8px; 
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .spot-title {
+            font-size: 1.15rem;
+            color: var(--accent-terra);
+            margin: 0 0 8px 0;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spot-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0 0 15px 0;
+            line-height: 1.6;
+        }
+
+        /* 子項目新增按鈕 */
         .btn-add-spot {
-            display: inline-flex; align-items: center; background: none; color: var(--text-sub); border: 1px dashed var(--line-color);
-            padding: 6px 12px; border-radius: 12px; font-size: 0.85rem; cursor: pointer; margin-top: 5px; opacity: 0.6; transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            background: none;
+            color: var(--text-sub);
+            border: 1px dashed var(--line-color);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 5px;
+            opacity: 0.6;
+            transition: all 0.2s;
         }
         .btn-add-spot:hover { opacity: 1; color: var(--accent-terra); border-color: var(--accent-terra); }
 
         /* ================= 機票樣式 ================= */
         .flight-category { margin-bottom: 20px; }
+        
         .flight-category summary {
-            font-size: 1.2rem; font-weight: 700; color: var(--accent-terra); padding: 15px 5px;
-            border-bottom: 2px solid var(--line-color); margin-bottom: 20px; display: flex; justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-terra);
+            padding: 15px 5px;
+            border-bottom: 2px solid var(--line-color);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
         }
+        
         .flight-category summary::after { content: '−'; font-weight: 300; font-size: 1.5rem; color: var(--accent-terra); }
         .flight-category:not([open]) summary::after { content: '+'; }
 
         .flight-ticket {
-            background: var(--ticket-bg); border-radius: 16px; padding: 22px; margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06); position: relative; overflow: hidden; color: var(--ticket-text);
+            background: var(--ticket-bg);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
+            color: var(--ticket-text);
         }
+
         .flight-ticket::before, .flight-ticket::after {
-            content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 24px; height: 24px;
-            background-color: var(--bg-color); border-radius: 50%; border: 1px solid rgba(0,0,0,0.03); z-index: 2;
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.03); 
+            z-index: 2;
         }
         .flight-ticket::before { left: -13px; }
         .flight-ticket::after { right: -13px; }
 
         .ticket-header {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(107, 91, 62, 0.2);
-            padding-bottom: 15px; margin-bottom: 15px; font-weight: 700; font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed rgba(107, 91, 62, 0.2);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 0.95rem;
         }
-        .ticket-header span.tag { background-color: rgba(255,255,255,0.6); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; color: var(--accent-agave); }
-        .ticket-body { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 0 15px; }
+
+        .ticket-header span.tag {
+            background-color: rgba(255,255,255,0.6);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--accent-agave);
+        }
+
+        .ticket-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 15px;
+        }
+
         .port { text-align: center; }
         .port h2 { margin: 0; font-size: 2.2rem; font-weight: 800; color: var(--primary); }
         .port p { margin: 0; font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
+
         .flight-icon { font-size: 1.5rem; color: var(--accent-terra); font-weight: 300; }
-        .ticket-footer { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+
+        .ticket-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+        }
+
         .time-block span { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; font-weight: 600;}
         .time-block strong { display: block; font-size: 1.1rem; margin-top: 2px; color: var(--primary); }
+
         .btn-track {
-            background-color: var(--accent-agave); color: #FFFFFF; padding: 10px 16px; border-radius: 20px;
-            text-decoration: none; font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
+            background-color: var(--accent-agave);
+            color: #FFFFFF;
+            padding: 10px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
         }
+        .btn-track:hover { opacity: 0.85; }
 
         /* ================= 住宿樣式 ================= */
         .accom-card {
-            background-color: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.03); text-align: center; position: relative;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: center;
+            position: relative;
         }
+
         .accom-img {
-            width: 100%; height: 320px; border-radius: 150px 150px 12px 12px; margin-bottom: 20px; object-fit: cover; display: block;
+            width: 100%;
+            height: 320px;
+            border-radius: 150px 150px 12px 12px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
         }
+
         .accom-dates {
-            display: inline-block; background-color: var(--bg-color); color: var(--accent-terra); padding: 6px 14px;
-            border-radius: 20px; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; border: 1px solid var(--line-color);
+            display: inline-block;
+            background-color: var(--bg-color);
+            color: var(--accent-terra);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid var(--line-color);
         }
-        .accom-title { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 10px 0; display: flex; justify-content: center; align-items: center; }
-        .accom-desc { font-size: 0.95rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; }
-        .accom-actions { display: flex; justify-content: center; gap: 10px; }
+
+        .accom-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .accom-desc {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .accom-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .btn-accom {
-            padding: 8px 18px; border-radius: 12px; text-decoration: none; font-size: 0.9rem; font-weight: 600;
-            border: 1px solid var(--accent-terra); color: var(--accent-terra); transition: all 0.2s;
+            padding: 8px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--accent-terra);
+            color: var(--accent-terra);
+            transition: all 0.2s;
         }
         .btn-accom:hover { background-color: var(--accent-terra); color: white; }
 
         /* ================= 底部導航 & FAB ================= */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line-color);
-            display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--line-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            z-index: 1000;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-sub); text-decoration: none; font-size: 0.75rem; font-weight: 600; width: 33%; }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: 33%;
+        }
+
         .nav-icon { display: flex; align-items: center; transition: all 0.2s ease; }
         .nav-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         .nav-item.active { color: var(--accent-agave); }
         .nav-item.active .nav-icon { transform: translateY(-3px); }
 
         .fab-btn {
-            position: fixed; bottom: 90px; right: 20px; width: 56px; height: 56px; background-color: var(--accent-terra);
-            color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(192, 92, 66, 0.4); cursor: pointer; z-index: 999;
+            position: fixed;
+            bottom: 90px; 
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--accent-terra);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(192, 92, 66, 0.4);
+            cursor: pointer;
+            z-index: 999;
         }
         .fab-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
         /* ================= 彈出表單 Modal ================= */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 2000;
-            display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background-color: var(--bg-color); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 24px 24px 0 0;
-            padding: 25px 25px 40px; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s ease;
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            border-radius: 24px 24px 0 0;
+            padding: 25px 25px 40px;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line-color); padding-bottom: 15px; }
@@ -324,8 +638,9 @@
         .btn-delete:hover { background-color: var(--delete-color); color: white; }
 
         .toast {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(45, 42, 38, 0.9);
-            color: white; padding: 15px 30px; border-radius: 30px; font-weight: 600; z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: rgba(45, 42, 38, 0.9); color: white; padding: 15px 30px;
+            border-radius: 30px; font-weight: 600; z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .toast.show { opacity: 1; }
 
@@ -335,6 +650,7 @@
 
     <header id="main-header">
         <h1 id="header-title">Family Trip 2026</h1>
+        <button class="btn-export" onclick="exportWebpage()" title="匯出網頁檔">💾 匯出</button>
         <div class="day-nav" id="navBar">
             <button class="day-tab active" onclick="showDay('day-17', this)">Jul 17</button>
             <button class="day-tab" onclick="showDay('day-18', this)">Jul 18</button>
@@ -1655,6 +1971,7 @@
                 <p class="accom-desc hotel-desc">位於墨西哥城 (CDMX) 的精華地段，房型為 2 間豪華雙人房。</p>
                 <div class="accom-actions">
                     <a href="https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                    <a href="" class="btn-accom btn-airbnb hotel-link" target="_blank" style="display:none;">Airbnb</a>
                 </div>
             </div>
 
@@ -1676,6 +1993,7 @@
                 <p class="accom-desc hotel-desc">位於加州 Cupertino。（子奇、叮噹入住）</p>
                 <div class="accom-actions">
                     <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                    <a href="" class="btn-accom btn-airbnb hotel-link" target="_blank" style="display:none;">Airbnb</a>
                 </div>
             </div>
         </div>
@@ -1702,6 +2020,9 @@
         </a>
     </nav>
 
+    <header style="position:fixed; top:20px; right:20px; width:0; height:0; padding:0; z-index:1001; background:none; box-shadow:none;"></header>
+    <button class="btn-export" onclick="exportWebpage()" title="匯出網頁檔" style="position: fixed; top: 22px; right: 20px; z-index: 1002;">💾 匯出</button>
+    
     <div class="fab-btn" onclick="openAddModal()">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
     </div>
@@ -1840,72 +2161,28 @@
     <div class="toast" id="toastMsg">內容已儲存！</div>
 
     <script>
-        /* ================= 資料儲存 (Local Storage) ================= */
-        // 每次編輯/新增/刪除後都會呼叫此函數，把資料存進瀏覽器
-        function saveState() {
-            const data = {
-                titles: {},
-                banners: {},
-                timelines: {},
-                flights: {
-                    parents: document.getElementById('flight-group-parents').innerHTML,
-                    kids: document.getElementById('flight-group-kids').innerHTML,
-                    all: document.getElementById('flight-group-all').innerHTML
-                },
-                hotels: document.getElementById('hotels-container').innerHTML
-            };
-
-            document.querySelectorAll('.day-view').forEach(dayView => {
-                const id = dayView.id;
-                const titleEl = dayView.querySelector('.day-title-text');
-                if (titleEl) data.titles[id] = titleEl.innerText;
-
-                const bannerEl = dayView.querySelector('.daily-banner-img');
-                if (bannerEl) data.banners[id] = bannerEl.src;
-
-                const timelineEl = dayView.querySelector('.timeline');
-                if (timelineEl) data.timelines[id] = timelineEl.innerHTML;
-            });
-
-            localStorage.setItem('FamilyTrip2026Data', JSON.stringify(data));
+        /* ================= 自體匯出網頁邏輯 ================= */
+        function exportWebpage() {
+            // 先關閉所有的編輯彈窗，確保匯出時畫面是乾淨的
+            closeEditModal();
+            
+            // 取得當前的完整 HTML
+            let currentHTML = document.documentElement.outerHTML;
+            
+            // 將 HTML 轉換為 Blob 物件
+            const blob = new Blob(['<!DOCTYPE html>\n' + currentHTML], { type: 'text/html;charset=utf-8' });
+            
+            // 建立虛擬的下載連結並點擊
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'trip.html'; // 匯出的檔名
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 提示用戶上傳
+            showToast("✅ 網頁已下載！請將此檔案上傳至 GitHub 覆蓋舊檔", 5000);
         }
-
-        // 載入時讀取資料
-        function loadState() {
-            const saved = localStorage.getItem('FamilyTrip2026Data');
-            if (!saved) return;
-
-            try {
-                const data = JSON.parse(saved);
-                document.querySelectorAll('.day-view').forEach(dayView => {
-                    const id = dayView.id;
-                    if (data.titles[id] && dayView.querySelector('.day-title-text')) {
-                        dayView.querySelector('.day-title-text').innerText = data.titles[id];
-                    }
-                    if (data.banners[id] && dayView.querySelector('.daily-banner-img')) {
-                        dayView.querySelector('.daily-banner-img').src = data.banners[id];
-                    }
-                    if (data.timelines[id] && dayView.querySelector('.timeline')) {
-                        dayView.querySelector('.timeline').innerHTML = data.timelines[id];
-                    }
-                });
-
-                if (data.flights) {
-                    if (data.flights.parents) document.getElementById('flight-group-parents').innerHTML = data.flights.parents;
-                    if (data.flights.kids) document.getElementById('flight-group-kids').innerHTML = data.flights.kids;
-                    if (data.flights.all) document.getElementById('flight-group-all').innerHTML = data.flights.all;
-                }
-
-                if (data.hotels) {
-                    document.getElementById('hotels-container').innerHTML = data.hotels;
-                }
-            } catch (e) {
-                console.error("無法載入儲存的資料", e);
-            }
-        }
-
-        // 畫面載入時執行讀取
-        window.addEventListener('DOMContentLoaded', loadState);
 
         /* ================= 頁面與 UI 邏輯 ================= */
         function switchMainView(viewId, btnElement, titleText) {
@@ -1941,8 +2218,7 @@
             const newTitle = prompt("編輯每日標題：", span.innerText);
             if (newTitle !== null && newTitle.trim() !== "") {
                 span.innerText = newTitle.trim();
-                saveState(); // 存檔
-                showToast("標題已更新！");
+                showToast("標題已更新！記得匯出存檔喔。");
             }
         }
 
@@ -1956,17 +2232,16 @@
             
             if (newUrl && newUrl.trim() !== "") {
                 imgElement.src = newUrl;
-                saveState(); // 存檔
-                showToast("Banner 已更新！");
+                showToast("Banner 已更新！記得匯出存檔喔。");
             }
             container.classList.remove('show-overlay');
         }
 
-        function showToast(msg = "內容已儲存！") {
+        function showToast(msg = "內容已更新！記得點擊右上角「匯出」存檔喔！", duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.innerText = msg;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+            setTimeout(() => toast.classList.remove('show'), duration);
         }
 
         /* ================= 彈窗與刪除 ================= */
@@ -1993,11 +2268,10 @@
 
         function deleteCurrentItem() {
             if (!currentEditNode) return;
-            if (confirm("確定要刪除這個項目嗎？這無法復原喔！")) {
+            if (confirm("確定要刪除這個項目嗎？")) {
                 currentEditNode.remove();
-                saveState(); // 存檔
                 closeEditModal();
-                showToast("已刪除項目！");
+                showToast("已刪除項目！記得匯出存檔。");
             }
         }
 
@@ -2098,7 +2372,6 @@
                 const activeTimeline = document.querySelector('.day-view.active .timeline');
                 if(activeTimeline) activeTimeline.insertAdjacentHTML('beforeend', html);
             }
-            saveState(); // 存檔
             closeEditModal();
             showToast();
         }
@@ -2160,7 +2433,6 @@
                 </div>`;
                 currentParentContainer.insertAdjacentHTML('beforeend', html);
             }
-            saveState(); // 存檔
             closeEditModal();
             showToast();
         }
@@ -2242,7 +2514,6 @@
                 </div>`;
                 document.getElementById(targetGroup).insertAdjacentHTML('beforeend', html);
             }
-            saveState(); // 存檔
             closeEditModal();
             showToast();
         }
@@ -2307,7 +2578,6 @@
                 </div>`;
                 document.getElementById('hotels-container').insertAdjacentHTML('beforeend', html);
             }
-            saveState(); // 存檔
             closeEditModal();
             showToast();
         }
