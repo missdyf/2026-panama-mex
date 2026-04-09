@@ -306,6 +306,7 @@
             border-radius: 150px 150px 12px 12px; 
             margin-bottom: 18px;
             object-fit: cover;
+            display: block;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
@@ -459,6 +460,7 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 600;
+            transition: opacity 0.2s;
             box-shadow: 0 4px 10px rgba(76, 106, 90, 0.2);
         }
         .btn-track:hover { opacity: 0.85; }
@@ -547,6 +549,7 @@
             justify-content: space-around;
             padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
             z-index: 1000;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.03);
         }
 
         .nav-item {
@@ -650,7 +653,7 @@
 
     <header id="main-header">
         <h1 id="header-title">Family Trip 2026</h1>
-        <button class="btn-export" onclick="exportWebpage()" title="匯出網頁檔">💾 匯出</button>
+        <button class="btn-export" onclick="exportWebpage()" title="匯出親友瀏覽版">💾 匯出</button>
         <div class="day-nav" id="navBar">
             <button class="day-tab active" onclick="showDay('day-17', this)">Jul 17</button>
             <button class="day-tab" onclick="showDay('day-18', this)">Jul 18</button>
@@ -865,7 +868,6 @@
                     <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
             </div>
-            <div class="note">✅ 今日安排隨行口譯協助</div>
             <div class="timeline" id="timeline-20">
                 <details class="itinerary-block" open>
                     <summary>
@@ -878,7 +880,7 @@
                     <div class="details-content">
                         <div class="normal-info">
                             <img src="" class="attraction-img normal-img-target" style="display:none;">
-                            <p class="desc-text normal-desc-text">前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。</p>
+                            <p class="desc-text normal-desc-text">前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。<br><br>✅ 今日安排隨行口譯協助</p>
                             <div class="link-actions">
                                 <a href="https://www.google.com/maps/search/?api=1&query=Ministerio+De+Comercio+E+Industrias+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">永居卡辦理處</a>
                                 <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
@@ -941,7 +943,6 @@
                     <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
                 </div>
             </div>
-            <div class="note">✅ 今日安排隨行口譯協助</div>
             <div class="timeline" id="timeline-21">
                 <details class="itinerary-block" open>
                     <summary>
@@ -954,7 +955,7 @@
                     <div class="details-content">
                         <div class="normal-info">
                             <img src="" class="attraction-img normal-img-target" style="display:none;">
-                            <p class="desc-text normal-desc-text">前往 Electoral Tribunal of Panama 辦理手續。</p>
+                            <p class="desc-text normal-desc-text">前往 Electoral Tribunal of Panama 辦理手續。<br><br>✅ 今日安排隨行口譯協助</p>
                             <div class="link-actions">
                                 <a href="https://www.google.com/maps/search/?api=1&query=Tribunal+Electoral+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">身分證辦理處</a>
                                 <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
@@ -2020,9 +2021,6 @@
         </a>
     </nav>
 
-    <header style="position:fixed; top:20px; right:20px; width:0; height:0; padding:0; z-index:1001; background:none; box-shadow:none;"></header>
-    <button class="btn-export" onclick="exportWebpage()" title="匯出網頁檔" style="position: fixed; top: 22px; right: 20px; z-index: 1002;">💾 匯出</button>
-    
     <div class="fab-btn" onclick="openAddModal()">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
     </div>
@@ -2161,27 +2159,101 @@
     <div class="toast" id="toastMsg">內容已儲存！</div>
 
     <script>
-        /* ================= 自體匯出網頁邏輯 ================= */
+        /* ================= 資料儲存 (Local Storage) ================= */
+        function saveState() {
+            const data = {
+                titles: {}, banners: {}, timelines: {},
+                flights: {
+                    parents: document.getElementById('flight-group-parents').innerHTML,
+                    kids: document.getElementById('flight-group-kids').innerHTML,
+                    all: document.getElementById('flight-group-all').innerHTML
+                },
+                hotels: document.getElementById('hotels-container').innerHTML
+            };
+
+            document.querySelectorAll('.day-view').forEach(dayView => {
+                const id = dayView.id;
+                const titleEl = dayView.querySelector('.day-title-text');
+                if (titleEl) data.titles[id] = titleEl.innerText;
+
+                const bannerEl = dayView.querySelector('.daily-banner-img');
+                if (bannerEl) data.banners[id] = bannerEl.src;
+
+                const timelineEl = dayView.querySelector('.timeline');
+                if (timelineEl) data.timelines[id] = timelineEl.innerHTML;
+            });
+
+            localStorage.setItem('FamilyTrip2026Data', JSON.stringify(data));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('FamilyTrip2026Data');
+            if (!saved) return;
+
+            try {
+                const data = JSON.parse(saved);
+                document.querySelectorAll('.day-view').forEach(dayView => {
+                    const id = dayView.id;
+                    if (data.titles && data.titles[id] && dayView.querySelector('.day-title-text')) {
+                        dayView.querySelector('.day-title-text').innerText = data.titles[id];
+                    }
+                    if (data.banners && data.banners[id] && dayView.querySelector('.daily-banner-img')) {
+                        dayView.querySelector('.daily-banner-img').src = data.banners[id];
+                    }
+                    if (data.timelines && data.timelines[id] && dayView.querySelector('.timeline')) {
+                        dayView.querySelector('.timeline').innerHTML = data.timelines[id];
+                    }
+                });
+
+                if (data.flights) {
+                    if (data.flights.parents) document.getElementById('flight-group-parents').innerHTML = data.flights.parents;
+                    if (data.flights.kids) document.getElementById('flight-group-kids').innerHTML = data.flights.kids;
+                    if (data.flights.all) document.getElementById('flight-group-all').innerHTML = data.flights.all;
+                }
+
+                if (data.hotels) {
+                    document.getElementById('hotels-container').innerHTML = data.hotels;
+                }
+            } catch (e) {
+                console.error("無法載入儲存的資料", e);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadState);
+
+        /* ================= 自體匯出網頁邏輯 (唯讀版) ================= */
         function exportWebpage() {
-            // 先關閉所有的編輯彈窗，確保匯出時畫面是乾淨的
             closeEditModal();
             
-            // 取得當前的完整 HTML
-            let currentHTML = document.documentElement.outerHTML;
+            // 複製當前的 HTML
+            const clonedDoc = document.documentElement.cloneNode(true);
             
-            // 將 HTML 轉換為 Blob 物件
-            const blob = new Blob(['<!DOCTYPE html>\n' + currentHTML], { type: 'text/html;charset=utf-8' });
+            // 拔除所有編輯 UI 與按鈕
+            const elementsToRemove = clonedDoc.querySelectorAll('.btn-edit-tiny, .btn-add-spot, .fab-btn, #editModal, .banner-edit-overlay, .btn-export');
+            elementsToRemove.forEach(el => el.remove());
             
-            // 建立虛擬的下載連結並點擊
+            // 移除 Banner 的點擊事件
+            const bannerContainers = clonedDoc.querySelectorAll('.banner-container');
+            bannerContainers.forEach(el => {
+                el.removeAttribute('onclick');
+                el.classList.remove('show-overlay'); 
+            });
+            const bannerImgs = clonedDoc.querySelectorAll('.daily-banner-img');
+            bannerImgs.forEach(el => el.removeAttribute('onclick'));
+            
+            // 取得純淨的 HTML 字串
+            let cleanHTML = clonedDoc.outerHTML;
+            
+            // 建立下載連結
+            const blob = new Blob(['<!DOCTYPE html>\n' + cleanHTML], { type: 'text/html;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'trip.html'; // 匯出的檔名
+            link.download = 'family_trip_view_only.html'; 
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            // 提示用戶上傳
-            showToast("✅ 網頁已下載！請將此檔案上傳至 GitHub 覆蓋舊檔", 5000);
+            showToast("✅ 已匯出純淨親友瀏覽版！上傳覆蓋即可。", 5000);
         }
 
         /* ================= 頁面與 UI 邏輯 ================= */
@@ -2218,7 +2290,8 @@
             const newTitle = prompt("編輯每日標題：", span.innerText);
             if (newTitle !== null && newTitle.trim() !== "") {
                 span.innerText = newTitle.trim();
-                showToast("標題已更新！記得匯出存檔喔。");
+                saveState();
+                showToast("標題已更新！");
             }
         }
 
@@ -2232,12 +2305,13 @@
             
             if (newUrl && newUrl.trim() !== "") {
                 imgElement.src = newUrl;
-                showToast("Banner 已更新！記得匯出存檔喔。");
+                saveState();
+                showToast("Banner 已更新！");
             }
             container.classList.remove('show-overlay');
         }
 
-        function showToast(msg = "內容已更新！記得點擊右上角「匯出」存檔喔！", duration = 3000) {
+        function showToast(msg = "內容已儲存！", duration = 2500) {
             const toast = document.getElementById('toastMsg');
             toast.innerText = msg;
             toast.classList.add('show');
@@ -2254,7 +2328,6 @@
             editModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             modalTitle.innerText = title;
-            // 決定要不要顯示刪除按鈕 (新增時隱藏，編輯時顯示)
             document.querySelectorAll('.btn-delete').forEach(b => b.style.display = currentEditNode ? 'block' : 'none');
         }
 
@@ -2268,10 +2341,11 @@
 
         function deleteCurrentItem() {
             if (!currentEditNode) return;
-            if (confirm("確定要刪除這個項目嗎？")) {
+            if (confirm("確定要刪除這個項目嗎？這無法復原喔！")) {
                 currentEditNode.remove();
+                saveState();
                 closeEditModal();
-                showToast("已刪除項目！記得匯出存檔。");
+                showToast("已刪除項目！");
             }
         }
 
@@ -2372,6 +2446,7 @@
                 const activeTimeline = document.querySelector('.day-view.active .timeline');
                 if(activeTimeline) activeTimeline.insertAdjacentHTML('beforeend', html);
             }
+            saveState(); 
             closeEditModal();
             showToast();
         }
@@ -2433,6 +2508,7 @@
                 </div>`;
                 currentParentContainer.insertAdjacentHTML('beforeend', html);
             }
+            saveState(); 
             closeEditModal();
             showToast();
         }
@@ -2514,6 +2590,7 @@
                 </div>`;
                 document.getElementById(targetGroup).insertAdjacentHTML('beforeend', html);
             }
+            saveState(); 
             closeEditModal();
             showToast();
         }
@@ -2578,6 +2655,7 @@
                 </div>`;
                 document.getElementById('hotels-container').insertAdjacentHTML('beforeend', html);
             }
+            saveState();
             closeEditModal();
             showToast();
         }
