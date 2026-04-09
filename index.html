@@ -178,7 +178,7 @@
             display: flex; flex-direction: column; gap: 8px; margin-top: 15px; text-align: left;
             background-color: var(--bg-color); padding: 12px; border-radius: 8px; border: 1px dashed var(--line-color);
         }
-        .meta-item { display: flex; align-items: flex-start; }
+        .meta-item { display: flex; align-items: flex-start; cursor: pointer; }
         .meta-icon { margin-right: 8px; font-size: 1.1rem; }
         .meta-text { flex-grow: 1; font-size: 0.9rem; color: var(--primary); line-height: 1.5; white-space: pre-wrap; font-weight: 600; }
         
@@ -305,7 +305,6 @@
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line-color);
             display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000;
         }
-        /* 導航項目寬度調整為 33.33% */
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-sub); text-decoration: none; font-size: 0.75rem; font-weight: 600; width: 33.33%; }
         .nav-icon { display: flex; align-items: center; transition: all 0.2s ease; }
         .nav-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -513,7 +512,7 @@
                             <img src="" class="attraction-img normal-img-target" style="display:none;">
                             <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM409</strong><br>20:16 SFO ➔ 05:35 PTY<br>詳細航班資訊請見下方「機票」分頁。</p>
                             <div class="link-actions">
-                                <a href="http://googleusercontent.com/maps.google.com/0" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
                                 <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
                             </div>
                         </div>
@@ -545,7 +544,1280 @@
             </div>
         </div>
 
-        </div> 
+        <div id="day-18" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/18 (六) ｜ 巴拿馬會合</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬市區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-18">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">05:35 - 08:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">爸媽抵達巴拿馬</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達後先至民宿辦理 check-in 與休息，適應時差。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Hilton+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬市區民宿</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">01:12 - 10:27</span>
+                        <div class="event-title">
+                            <span class="event-title-text">奇叮飛往巴拿馬</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 長榮航空 BR3181</strong><br>01:12 SFO ➔ 10:27 PTY</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">12:00 - 14:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">民宿會合與午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">全家於民宿順利會合！在附近輕鬆吃個午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">16:30 - 20:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">購物中心逛街與晚餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">傍晚前往當地的 Mall (Multiplaza) 逛逛，並享用晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Multiplaza Panamá</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-19" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/19 (日) ｜ 世紀工程</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-19">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 15:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">巴拿馬運河一日遊</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZw8sFf1bzcj-sK9HYNXPNUi9o6vqL0IWJQ&s" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">來到巴拿馬必訪的世紀工程！可選擇在 Miraflores 觀景台近距離欣賞巨輪過閘門，或是選擇搭船親自航行巴拿馬運河南段（約需 6 小時）。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Miraflores+Visitor+Center+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Miraflores 觀景台</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-20" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/20 (一) ｜ 辦理重要事務</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬辦事" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-20">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 12:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理永居卡</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Ministerio De Comercio E Industrias 辦理永久居留卡，預計現場拿卡。<br><br>✅ 今日安排隨行口譯協助</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Ministerio+De+Comercio+E+Industrias+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">永居卡辦理處</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">14:00 - 16:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">銀行開戶</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Banesco Xperience (Calle 50 分行) 辦理開戶事宜。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Banesco+Calle+50+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Banesco 銀行</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">17:00 - 20:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Multiplaza 逛街與晚餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">順利完成辦理事項後，於商場放鬆休息享用晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Multiplaza+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">Multiplaza Panamá</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-21" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/21 (二) ｜ 辦理身分證與看房</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬辦事" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-21">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 12:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理身分證</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Electoral Tribunal of Panama 辦理手續。<br><br>✅ 今日安排隨行口譯協助</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Tribunal+Electoral+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">身分證辦理處</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">14:00 - 16:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">參觀房產與午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">前往 Financial Park 了解當地房地產，並在附近享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Financial+Park+Costa+del+Este" class="btn-spot-map btn-location normal-map-target" target="_blank">Financial Park</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">17:00 - 20:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Town Center 逛街</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">傍晚前往 Costa del Este 新城區的商場閒逛與晚餐。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Town+Center+Costa+del+Este" class="btn-spot-map btn-location normal-map-target" target="_blank">Town Center</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-22" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/22 (三) ｜ 預留彈性與老城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬老城區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-22">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">彈性時間與老城區觀光</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">全天預留為辦理未完事務的彈性時間。若提早結束，可至充滿殖民色彩的老城區 (Casco Viejo) 與老城堡漫步觀光。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-23" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/23 (四) ｜ 飛往墨西哥城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=墨西哥城" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-23">
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">06:00 - 06:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">出發前往機場</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">06:00 退房，06:30 抵達巴拿馬機場。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">09:25 - 12:10</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往墨西哥城 (MEX)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM120</strong><br>09:25 PTY ➔ 12:10 MEX</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">墨西哥城機場 (MEX)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">14:00 - 14:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飯店寄放行李</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達 Sheraton María Isabel Hotel 寄放行李。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map btn-location normal-map-target" target="_blank">Sheraton 飯店</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">14:30 - 19:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">城區歷史巡禮</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">探索墨西哥城的心臟地帶，感受強烈的文化脈動。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>憲法廣場 (Zócalo)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=憲法廣場" class="spot-img img-target">
+                                <p class="spot-desc desc-text">墨西哥城的心臟，亦是世界最大廣場之一，周圍環繞著見證歷史更迭的重要建築。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Zocalo+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">憲法廣場</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>大主教堂</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=大主教堂" class="spot-img img-target">
+                                <p class="spot-desc desc-text">拉丁美洲最大和最古老的主教座堂，耗時近三百年建成，融合了多種建築風格。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Metropolitan+Cathedral+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">大主教堂</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>郵政宮 (Palacio Postal)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=郵政宮" class="spot-img img-target">
+                                <p class="spot-desc desc-text">被譽為世界最美的郵局，擁有華麗的青銅雕花樓梯與精緻的大理石裝飾，極具復古奢華感。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Palacio+Postal+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">郵政宮</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>藝術宮 (Palacio de Bellas Artes)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=藝術宮" class="spot-img img-target">
+                                <p class="spot-desc desc-text">展現墨西哥精緻藝術與壁畫的最高殿堂，外觀為華麗的新古典主義與新藝術風格。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Palacio+de+Bellas+Artes+Mexico+City" class="btn-spot-map btn-location map-target" target="_blank">藝術宮</a>
+                            </div>
+                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-24" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/24 (五) ｜ 霍奇米爾科與藝術</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=霍奇米爾科" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-24">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 11:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">霍奇米爾科遊船</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=霍奇米爾科遊船" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">搭乘被稱為 Trajinera 的鮮豔木船，穿梭於世界遺產霍奇米爾科的水上花園水道中，感受熱鬧的音樂與氣氛。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Xochimilco+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">霍奇米爾科</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">12:00 - 13:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">午餐時間</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">於景點附近享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">13:00 - 15:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">奧爾梅多博物館</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=奧爾梅多博物館" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">館內收藏了大量著名藝術家 (如 Frida Kahlo) 的作品，庭院中還能看見孔雀與無毛犬漫步。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Museo+Dolores+Olmedo" class="btn-spot-map btn-location normal-map-target" target="_blank">奧爾梅多博物館</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">16:00 - 19:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Coyoacán 城區漫步</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Coyoacán城區" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">漫步於充滿文藝氣息的科約阿坎區，這裡有美麗的百年建築、市集與咖啡館，晚餐也在此享用。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Coyoacan+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">Coyoacán 城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-25" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/25 (六) ｜ 歷史文化與家鄉味</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=博物館" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-25">
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">07:00 - 08:10</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飯店早餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">吃飽喝足，準備一天的文化洗禮。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">08:30 - 11:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Chapultepec 城堡</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=查普爾特佩克城堡" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">美洲大陸上唯一的一座皇家城堡 (09:00 開放)，位於高地上，可以俯瞰整座墨西哥城的美麗天際線。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Chapultepec+Castle" class="btn-spot-map btn-location normal-map-target" target="_blank">Chapultepec 城堡</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">12:00 - 13:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">博物館餐廳午餐</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">於人類學博物館附設餐廳享用午餐。</p>
+                            <div class="link-actions">
+                                <a href="#" class="btn-spot-map btn-location normal-map-target" target="_blank" style="display:none;">Google Map</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">13:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">國立人類學博物館</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">墨西哥最重要的博物館！深入探索各大文明展廳：</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=National+Museum+of+Anthropology+Mexico" class="btn-spot-map btn-location normal-map-target" target="_blank">國立人類學博物館</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>世界起源廳</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=世界起源廳" class="spot-img img-target">
+                                <p class="spot-desc desc-text">探索人類的起源與演化，為深入了解美洲原住民歷史揭開序幕。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>奧爾美加文明廳 (Olmeca)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=奧爾美加文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">探訪中美洲文明的「母文化」，必看標誌性的巨大玄武岩人頭雕像。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>迪奧狄華肯文明廳 (Teotihuacan)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=迪奧狄華肯文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">展出眾神之城的珍貴文物，一睹當時繁華的都市規劃與神話信仰。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>阿兹特克文明廳 (Azteca)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=阿兹特克文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">博物館的核心展廳，鎮館之寶「太陽曆石」便座落於此，極具震撼力。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>瑪雅文明廳 (Maya)</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=瑪雅文明" class="spot-img img-target">
+                                <p class="spot-desc desc-text">欣賞瑪雅人精湛的曆法、象形文字與翡翠面具，感受叢林中的神祕智慧。</p>
+                                <a href="#" class="btn-spot-map btn-location map-target" target="_blank" style="display:none;">Google Map</a>
+                            </div>
+                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">17:30 - 19:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Roma 區與台灣刈包</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">在時髦的羅馬區散步，晚餐特別安排 Bao Bao Taiwanese Eatery，在異鄉品嚐熟悉的台灣刈包解解饞！</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bao+Bao+Taiwanese+Eatery+Roma+Nte" class="btn-spot-map btn-location normal-map-target" target="_blank">Bao Bao Taiwanese Eatery</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-26" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/26 (日) ｜ 俯瞰眾神之城</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=熱氣球" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-26">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">05:00 - 15:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">日月金字塔與古城導覽</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">迎著晨曦搭乘熱氣球升空，並於降落後進行特奧蒂瓦坎 (Teotihuacán) 園區深度導覽。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Teotihuacan+Pyramids" class="btn-spot-map btn-location normal-map-target" target="_blank">Teotihuacán 園區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+
+                        <div class="spots-container">
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>太陽金字塔</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=太陽金字塔" class="spot-img img-target">
+                                <p class="spot-desc desc-text">世界第三大金字塔，展現了古人對太陽神的敬畏與卓越的建築工藝。</p>
+                                <a href="https://maps.google.com/" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>月亮金字塔</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=月亮金字塔" class="spot-img img-target">
+                                <p class="spot-desc desc-text">位於亡靈大道的盡頭，從這裡可以俯瞰整座古城的壯闊全景與幾何布局。</p>
+                                <a href="https://maps.google.com/?q=Colonia+Roma+Mexico+City9" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>羽蛇神宮殿</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=羽蛇神宮殿" class="spot-img img-target">
+                                <p class="spot-desc desc-text">表面飾有精美的羽蛇神與雨神浮雕，是特奧蒂瓦坎最華麗、最具神話色彩的建築之一。</p>
+                                <a href="https://maps.google.com/?q=Bao+Bao+Taiwanese+Eatery+Mexico+City0" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                            <div class="spot-card">
+                                <h4 class="spot-title"><span>亡靈大道</span><button class="btn-edit-tiny" onclick="editSpot(this, event)">✎</button></h4>
+                                <img src="https://placehold.co/800x800/E2DCD0/C05C42?text=亡靈大道" class="spot-img img-target">
+                                <p class="spot-desc desc-text">貫穿整座古城的中軸線，兩側遺跡林立，漫步其中彷彿穿越時空回到阿茲特克人命名的神聖古都。</p>
+                                <a href="https://maps.google.com/?q=Bao+Bao+Taiwanese+Eatery+Mexico+City1" class="btn-spot-map btn-location map-target" target="_blank">Google Map</a>
+                            </div>
+                        </div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">15:00 - 16:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">傳統手工藝市集</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=手工藝市集" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">來到 Mercado de Artesanías La Ciudadela，這裡可以買到各式各樣色彩鮮豔的墨西哥傳統編織品、陶器與紀念品。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Mercado+de+Artesanias+La+Ciudadela" class="btn-spot-map btn-location normal-map-target" target="_blank">La Ciudadela 市集</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">16:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">回飯店休息</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">返回 Sheraton 飯店稍作休息，梳洗整理。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sheraton+Maria+Isabel+Hotel+CDMX" class="btn-spot-map btn-location normal-map-target" target="_blank">Sheraton 飯店</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">17:30 - 20:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">晚餐：Entremar</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">晚餐於墨西哥城非常知名的人氣海鮮餐廳 Entremar 享用豐盛料理。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Entremar+Mexico+City" class="btn-spot-map btn-location normal-map-target" target="_blank">Entremar 餐廳</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-27" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/27 (一) ｜ 重返巴拿馬</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=重返巴拿馬" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-27">
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">06:30 - 08:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">出發前往機場</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達墨西哥 MEX 機場報到與托運行李。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=MEX+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">墨西哥城機場 (MEX)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">09:50 - 14:36</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往巴拿馬 (PTY)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM137</strong><br>09:50 MEX ➔ 14:36 PTY</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=PTY+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬機場 (PTY)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">16:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">老城區民宿入住</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">入住巴拿馬最精華觀光區的老城區民宿。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://maps.app.goo.gl/sPofucPCWRHU4u1k7?g_st=ipc" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-28" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/28 (二) ｜ 老城區悠閒時光</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=巴拿馬老城區" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-28">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">09:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">辦理事務與老城觀光</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=老城區街景" class="attraction-img normal-img-target">
+                            <p class="desc-text normal-desc-text">全天為預留的辦事時間。若無事務，可在老城區內找間咖啡廳坐坐，享受悠閒的拉丁美洲時光。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Casco+Viejo+Panama" class="btn-spot-map btn-location normal-map-target" target="_blank">巴拿馬老城區</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-29" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/29 (三) ｜ 飛往加州</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-29">
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">12:38 - 17:59</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往舊金山 (SFO)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 巴拿馬航空 CM408</strong><br>12:38 PTY ➔ 17:59 SFO</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+                <details class="itinerary-block">
+                    <summary>
+                        <span class="time">19:00 - 20:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Cupertino 旅館入住</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">抵達加州後，前往 Maple Tree Inn 辦理入住休息。詳細住宿資訊請見「住宿」分頁。</p>
+                            <div class="link-actions">
+                                <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-spot-map btn-location normal-map-target" target="_blank">Maple Tree Inn</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-30" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/30 (四) ｜ 採買與親友餐敘</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州相聚" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-30">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">10:00 - 17:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">Cupertino 購物與相聚</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">在 Cupertino 當地輕鬆採買，並與親友溫馨餐敘，分享中南美洲的旅行點滴。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map btn-location normal-map-target" target="_blank">Cupertino</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-31" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">7/31 (五) ｜ 加州慢活</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=加州慢活" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-31">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">10:00 - 18:00</span>
+                        <div class="event-title">
+                            <span class="event-title-text">全天自由活動</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">享受沒有行程表的一天，在灣區感受舒適的加州陽光，為隔日的長途飛行儲備體力。</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Cupertino+California" class="btn-spot-map btn-location normal-map-target" target="_blank">Cupertino</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-01" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">8/1 (六) ｜ 踏上歸途</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=踏上歸途" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-01">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">01:00 - 04:40 (+1)</span>
+                        <div class="event-title">
+                            <span class="event-title-text">飛往台灣 (TPE)</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text"><strong>✈️ 長榮航空 BR27</strong><br>01:00 SFO ➔ 04:40(+1) TPE</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=SFO+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">舊金山機場 (SFO)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <div id="day-02" class="day-view">
+            <h2 class="section-title"><span class="day-title-text">8/2 (日) ｜ 平安抵達</span><button class="btn-edit-tiny" onclick="editDayTitle(this)">✎</button></h2>
+            <div class="daily-summary-section">
+                <div class="banner-container" onclick="toggleBannerOverlay(this)">
+                    <img src="https://placehold.co/800x400/E2DCD0/C05C42?text=平安抵達" class="daily-banner-img">
+                    <div class="banner-edit-overlay" onclick="updateBanner(event, this)">+</div>
+                </div>
+                <div class="daily-meta">
+                    <div class="meta-item weather-block">
+                        <span class="meta-icon">⛅</span>
+                        <span class="meta-text weather-auto-text">正在讀取天氣資訊...</span>
+                    </div>
+                    <div class="meta-item notes-block" onclick="editNotes(this)">
+                        <span class="meta-icon">📌</span>
+                        <span class="meta-text notes-text">點擊新增每日備註...</span>
+                        <button class="btn-edit-tiny">✎</button>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline" id="timeline-02">
+                <details class="itinerary-block" open>
+                    <summary>
+                        <span class="time">04:40 - 05:30</span>
+                        <div class="event-title">
+                            <span class="event-title-text">抵達台灣</span>
+                            <button class="btn-edit-tiny" onclick="editItinerary(this, event)">✎</button>
+                        </div>
+                    </summary>
+                    <div class="details-content">
+                        <div class="normal-info">
+                            <img src="" class="attraction-img normal-img-target" style="display:none;">
+                            <p class="desc-text normal-desc-text">清晨平安降落於台灣，為這趟跨國之旅畫下完美的句點！</p>
+                            <div class="link-actions">
+                                <a href="https://www.google.com/maps/search/?api=1&query=TPE+Airport" class="btn-spot-map btn-location normal-map-target" target="_blank">桃園機場 (TPE)</a>
+                                <a href="" class="btn-spot-map btn-link normal-link-target" target="_blank" style="display:none;">補充資料</a>
+                            </div>
+                        </div>
+                        <div class="spots-container"></div>
+                        <button class="btn-add-spot" onclick="openAddSpotModal(this, event)">+ 新增重點</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+    </div> 
     
     <div id="view-flights" class="main-view">
         <details class="flight-category" open id="flight-group-parents">
@@ -609,7 +1881,75 @@
 
         <details class="flight-category" open id="flight-group-all">
             <summary>全家共乘航班</summary>
-            </details>
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span class="flight-airline">巴拿馬航空 CM120</span>
+                    <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2 class="flight-dep-code">PTY</h2><p class="flight-dep-name">巴拿馬</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2 class="flight-arr-code">MEX</h2><p class="flight-arr-name">墨西哥城</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/23 09:25</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/23 12:10</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm120" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span class="flight-airline">巴拿馬航空 CM137</span>
+                    <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2 class="flight-dep-code">MEX</h2><p class="flight-dep-name">墨西哥城</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2 class="flight-arr-code">PTY</h2><p class="flight-arr-name">巴拿馬</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/27 09:50</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/27 14:36</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm137" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span class="flight-airline">巴拿馬航空 CM408</span>
+                    <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2 class="flight-dep-code">PTY</h2><p class="flight-dep-name">巴拿馬</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2 class="flight-arr-code">SFO</h2><p class="flight-arr-name">舊金山</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">7/29 12:38</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">7/29 17:59</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/cm408" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+            <div class="flight-ticket">
+                <div class="ticket-header">
+                    <span class="flight-airline">長榮航空 BR27</span>
+                    <span class="tag">全家</span>
+                    <button class="btn-edit-tiny" onclick="editFlight(this)">✎</button>
+                </div>
+                <div class="ticket-body">
+                    <div class="port"><h2 class="flight-dep-code">SFO</h2><p class="flight-dep-name">舊金山</p></div>
+                    <div class="flight-icon">➔</div>
+                    <div class="port"><h2 class="flight-arr-code">TPE</h2><p class="flight-arr-name">台北</p></div>
+                </div>
+                <div class="ticket-footer">
+                    <div class="time-block"><span>出發</span><strong class="flight-dep-time">8/1 01:00</strong></div>
+                    <div class="time-block"><span>抵達</span><strong class="flight-arr-time">8/2 04:40</strong></div>
+                    <a href="https://www.flightradar24.com/data/flights/br27" class="btn-track" target="_blank">追蹤航班狀態</a>
+                </div>
+            </div>
+        </details>
     </div>
 
     <div id="view-accommodations" class="main-view">
@@ -625,7 +1965,39 @@
                 </div>
             </div>
 
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">Sheraton Maria Isabel</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Sheraton+CDMX" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/23 - 7/27 (4晚)</span>
+                <p class="accom-desc hotel-desc">位於墨西哥城 (CDMX) 的精華地段，房型為 2 間豪華雙人房。</p>
+                <div class="accom-actions">
+                    <a href="https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                    <a href="" class="btn-accom btn-airbnb hotel-link" target="_blank" style="display:none;">Airbnb</a>
+                </div>
             </div>
+
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">巴拿馬老城區民宿</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=巴拿馬老城區民宿" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/27 - 7/29 (2晚)</span>
+                <p class="accom-desc hotel-desc">位於巴拿馬最精華觀光區的老城區民宿，房型為 2房2衛浴。</p>
+                <div class="accom-actions">
+                    <a href="https://www.airbnb.com/l/FEdGpGTk" class="btn-accom btn-airbnb hotel-link" target="_blank">Airbnb</a>
+                    <a href="https://maps.app.goo.gl/sPofucPCWRHU4u1k7?g_st=ipc" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                </div>
+            </div>
+
+            <div class="accom-card">
+                <h3 class="accom-title"><span class="hotel-name">Maple Tree Inn</span> <button class="btn-edit-tiny" onclick="editHotel(this)">✎</button></h3>
+                <img src="https://placehold.co/800x1000/E2DCD0/C05C42?text=Maple+Tree+Inn" class="accom-img hotel-img">
+                <span class="accom-dates hotel-dates">入住：7/29 - 7/31 (2晚)</span>
+                <p class="accom-desc hotel-desc">位於加州 Cupertino。（子奇、叮噹入住）</p>
+                <div class="accom-actions">
+                    <a href="https://maps.app.goo.gl/hzNzazQHBBq3SW4H7" class="btn-accom btn-map hotel-link-map" target="_blank">地圖位置</a>
+                    <a href="" class="btn-accom btn-airbnb hotel-link" target="_blank" style="display:none;">Airbnb</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <nav class="bottom-nav">
