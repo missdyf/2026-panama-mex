@@ -183,7 +183,7 @@ ion-icon.ic{font-size:20px;}
 .daynav::-webkit-scrollbar-thumb{background:var(--paper-deep);}
 .stamp-btn{
   flex:0 0 auto;
-  width:52px; height:52px;
+  width:58px; height:58px;
   border-radius:50%;
   border:1.5px dashed var(--ink);
   background:var(--paper);
@@ -193,8 +193,8 @@ ion-icon.ic{font-size:20px;}
   color:var(--ink);
   transition:background .15s, color .15s, transform .15s;
 }
-.stamp-btn .m{font-size:9px; opacity:.75;}
-.stamp-btn .d{font-size:14px; font-weight:700;}
+.stamp-btn .m{font-size:12px; opacity:.75;}
+.stamp-btn .d{font-size:16px; font-weight:700;}
 .stamp-btn:hover{transform:translateY(-2px);}
 .stamp-btn.active{background:var(--ink); color:var(--paper); border-style:solid;}
 
@@ -529,12 +529,36 @@ footer p{
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width:640px){
+  .hero h1{font-size:26px; letter-spacing:.01em;}
+  .eyebrow{font-size:13px;}
+  .hero .sub{font-size:19px;}
+  .hero .dates{font-size:14px;}
   .day-head{align-items:flex-start;}
   .postmark{width:70px;height:70px;}
   .postmark .md{font-size:16px;}
+  .day-head .tag{font-size:13px;}
+  .day-head h3{font-size:24px;}
+  .free-note{font-size:17px;}
   .event{flex-wrap:wrap;}
-  .event .time-chip{width:auto; padding:5px 10px;}
+  .event .time-chip{width:auto; padding:5px 10px; font-size:13.5px;}
   .event .body{flex-basis:100%;}
+  .event .desc{font-size:18px; line-height:1.65;}
+  .map-chip{font-size:14px;}
+  .acc-banner .txt{font-size:16px;}
+  .acc-banner .txt b{font-size:17px;}
+  .spot-text .sname{font-size:20px;}
+  .spot-text .sdesc{font-size:16.5px; line-height:1.9;}
+  .painters .ptitle{font-size:13px;}
+  .painter .pname{font-size:16px;}
+  .painter .pyears{font-size:13px;}
+  .painter .pdesc{font-size:15.5px; line-height:1.85;}
+  .sub-spots .ptitle{font-size:13px;}
+  .sub-spot-text .spname{font-size:14px;}
+  .sub-spot-text .spdesc{font-size:14px; line-height:1.75;}
+  .sub-spot-text .map-chip{font-size:12.5px;}
+  .stub .name{font-size:15px;}
+  .footnav-btn{font-size:13.5px;}
+  footer p{font-size:13px;}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
@@ -549,13 +573,13 @@ footer p{
 }
 .tab-page-head h2{
   font-family:'Rozha One', serif;
-  font-size:22px; letter-spacing:.06em;
+  font-size:26px; letter-spacing:.06em;
   color:var(--green);
   margin:0 0 8px;
 }
 .tab-page-head p{
   font-family:'EB Garamond', serif; font-style:italic;
-  font-size:15px; color:var(--ink); margin:0 0 20px;
+  font-size:17px; color:var(--ink); margin:0 0 20px;
 }
 
 /* ---------- FLIGHTS LIST (boarding-pass ticket) ---------- */
@@ -575,21 +599,21 @@ footer p{
 }
 .ticket-airline{
   display:flex; align-items:center; gap:7px;
-  font-family:'Special Elite',monospace; font-size:12px; letter-spacing:.08em;
+  font-family:'Special Elite',monospace; font-size:14px; letter-spacing:.08em;
   color:var(--teal); text-transform:uppercase;
 }
-.ticket-airline ion-icon{font-size:16px;}
+.ticket-airline ion-icon{font-size:18px;}
 .ticket-flightno{
-  font-family:'Special Elite',monospace; font-size:12px;
+  font-family:'Special Elite',monospace; font-size:14px;
   color:var(--paper); background:var(--ink); padding:3px 9px; letter-spacing:.06em;
 }
 .ticket-route{display:flex; align-items:flex-end; gap:14px;}
 .ticket-route .code{flex:0 0 auto; text-align:center;}
 .ticket-route .code .cc{
-  font-family:'Rozha One',serif; font-size:26px; color:var(--green); line-height:1;
+  font-family:'Rozha One',serif; font-size:30px; color:var(--green); line-height:1;
 }
 .ticket-route .code .city{
-  display:block; font-family:'Noto Serif TC',serif; font-size:11px;
+  display:block; font-family:'Noto Serif TC',serif; font-size:13px;
   color:var(--ink); letter-spacing:.04em; margin-top:4px; opacity:.8;
 }
 .ticket-route .plane{
@@ -597,14 +621,14 @@ footer p{
   position:relative; padding-top:2px;
 }
 .ticket-route .plane .line{flex:1; height:1px; background:repeating-linear-gradient(90deg,var(--ink) 0 6px, transparent 6px 10px);}
-.ticket-route .plane ion-icon{font-size:17px; color:var(--orange); margin:0 8px; transform:rotate(45deg);}
+.ticket-route .plane ion-icon{font-size:19px; color:var(--orange); margin:0 8px; transform:rotate(45deg);}
 .ticket-times{display:flex; gap:28px; margin-top:16px;}
 .ticket-times .lbl{
-  font-family:'Special Elite',monospace; font-size:10px; letter-spacing:.12em;
+  font-family:'Special Elite',monospace; font-size:12px; letter-spacing:.12em;
   color:var(--teal); text-transform:uppercase; display:block; margin-bottom:3px;
 }
-.ticket-times .val{font-family:'EB Garamond',serif; font-weight:600; font-size:17px; color:var(--ink);}
-.ticket-times .val .dt{font-size:12px; opacity:.65; margin-left:5px; font-family:'Special Elite',monospace;}
+.ticket-times .val{font-family:'EB Garamond',serif; font-weight:600; font-size:20px; color:var(--ink);}
+.ticket-times .val .dt{font-size:14px; opacity:.65; margin-left:5px; font-family:'Special Elite',monospace;}
 .ticket-track{margin-top:14px; padding-top:12px; border-top:1px dashed var(--ink);}
 .ticket-stub{
   width:96px; flex:0 0 auto;
@@ -621,19 +645,19 @@ footer p{
 }
 .ticket-stub::before{top:-10px;}
 .ticket-stub::after{bottom:-10px;}
-.ticket-stub ion-icon{font-size:22px;}
+.ticket-stub ion-icon{font-size:24px;}
 .ticket-stub .swho{
-  font-family:'Special Elite',monospace; font-size:11px; letter-spacing:.08em;
+  font-family:'Special Elite',monospace; font-size:13px; letter-spacing:.08em;
   text-align:center; line-height:1.5;
 }
 .ticket-stub .sno{
   writing-mode:vertical-rl;
-  font-family:'Special Elite',monospace; font-size:11px; letter-spacing:.1em; opacity:.85;
+  font-family:'Special Elite',monospace; font-size:13px; letter-spacing:.1em; opacity:.85;
 }
 @media (max-width:520px){
   .ticket-times{gap:18px;}
   .ticket-stub{width:74px; padding:14px 6px;}
-  .ticket-route .code .cc{font-size:21px;}
+  .ticket-route .code .cc{font-size:24px;}
 }
 
 /* ---------- LODGING (tab) ---------- */
@@ -740,14 +764,7 @@ body{padding-bottom:92px !important;}
 <header class="hero">
   <div class="eyebrow">Family Journey Log</div>
   <h1>PANAMA × MEXICO</h1>
-  <div class="dates">2026 年 7 月 17 日 — 8 月 2 日 · 17 日</div>
-  <div class="route">
-    <span>TPE</span><span class="line"></span><span class="dot"></span><span class="line"></span>
-    <span>PTY</span><span class="line"></span><span class="dot"></span><span class="line"></span>
-    <span>MEX</span><span class="line"></span><span class="dot"></span><span class="line"></span>
-    <span>SFO</span><span class="line"></span><span class="dot"></span><span class="line"></span>
-    <span>TPE</span>
-  </div>
+  <div class="dates">2026.7.17 – 8.2 · 17</div>
 </header>
 
 <!-- ============ TAB: ITINERARY ============ -->
@@ -777,8 +794,6 @@ body{padding-bottom:92px !important;}
 </div>
 
 <footer>
-  <div class="mark">
-  </div>
   <p>PANAMA — MÉXICO — CALIFORNIA — TAIPEI</p>
 
 </footer>
@@ -825,7 +840,8 @@ const lodging = [
   {n:"7/18 → 7/23", nights:"5 晚", name:"巴拿馬市區海景民宿", map:"https://maps.app.goo.gl/Ehs9tphhYNVRWku2A?g_st=ipc", img:"https://a0.muscache.com/im/pictures/miso/Hosting-643340128329164455/original/b8ae2ac8-cde6-4f5a-92d2-90b83176ce87.jpeg?im_w=1440"},
   {n:"7/23 → 7/27", nights:"4 晚", name:"Sheraton Maria Isabel", map:"https://maps.app.goo.gl/4ZeiMoyBaQ6avU2b8?g_st=ipc", img:"https://images.getaroom-cdn.com/image/upload/s--LbcS84L_--/c_limit,e_improve,fl_lossy.immutable_cache,h_460,q_auto:good,w_460/v1769371470/1b44eaea0448d7affa6e0efe3ba96c552d4a3486?_a=BACAEuEv&atc=e7cd1cfa"},
   {n:"7/27 → 7/29", nights:"2 晚", name:"巴拿馬老城區民宿", map:"https://maps.app.goo.gl/sPofucPCWRHU4u1k7?g_st=ipc", img:"https://a0.muscache.com/im/pictures/prohost-api/Hosting-1186248557346489273/original/67dab26d-1261-4c05-9b05-f09bc4413f98.jpeg?im_w=1200"},
-  {n:"7/29 → 7/31", nights:"2 晚", name:"Maple Tree Inn", map:"https://maps.app.goo.gl/hzNzazQHBBq3SW4H7", img:"https://ik.imgkit.net/3vlqs5axxjf/external/ik-seo/https://www.cfmedia.vfmleonardo.com/imageRepo/4/0/57/748/244/Front_Ent._O/Maple-Tree-Inn-Exterior.jpg"},
+  {n:"7/29 → 7/30", nights:"1 晚", name:"Maple Tree Inn", map:"https://maps.app.goo.gl/hzNzazQHBBq3SW4H7", img:"https://ik.imgkit.net/3vlqs5axxjf/external/ik-seo/https://www.cfmedia.vfmleonardo.com/imageRepo/4/0/57/748/244/Front_Ent._O/Maple-Tree-Inn-Exterior.jpg"},
+  {n:"7/30 → 7/31", nights:"1 晚", name:"Hampton Inn & Suites San Mateo-San Francisco Airport", map:"https://maps.app.goo.gl/xun4K7EsCTdYWmUC8", img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/83/03/01/hampton-inn-suites-san.jpg?w=900&h=500&s=1"},
 ];
 
 const flights = [
@@ -1233,7 +1249,7 @@ note:"本日安排隨行口譯協助，需取指紋記得攜帶護手霜。<br>�
   { date:"7/30", wd:"Thu", theme:"free", tag:"Cupertino", title:"與石叔叔一家餐敘", rot:2,
     events:[
       {time:"10:00–15:00", desc:"暫定Cupertino觀光", icon:"food"},
-      {time:"15:00–20:00", desc:"和石叔叔一家見面餐敘 Filoli Historic House & World-Class Garden", icon:"food"},
+      {time:"15:00–20:00", desc:"和石叔叔一家見面餐敘 Filoli Historic House & World-Class Garden", icon:"food", img:"https://filoli.org/wp-content/uploads/2026/02/22-0423-M10R7017-Mike-James-4-scaled.jpg"},
       {time:"20:00–21:00", desc:"送爸媽到機場", icon:"car"},
       {time:"21:00", desc:"入住Hampton Inn & Suites San Mateo-San Francisco Airport", icon:"hotel", loc:[{label:"Hampton Inn & Suites San Mateo-San Francisco Airport",q:"Hampton Inn & Suites San Mateo-San Francisco Airport",url:"https://maps.app.goo.gl/xun4K7EsCTdYWmUC8"}]},
     ]
@@ -1424,10 +1440,6 @@ main.innerHTML = days.map((d,i) => {
     ${dayImg}
     ${note}
     <ul class="events">${events}</ul>
-    <div class="day-footnav">
-      ${i > 0 ? `<button class="footnav-btn prev" data-idx="${i-1}">← ${days[i-1].date} ${days[i-1].tag}</button>` : `<span></span>`}
-      ${i < days.length-1 ? `<button class="footnav-btn next" data-idx="${i+1}">${days[i+1].date} ${days[i+1].tag} →</button>` : `<span></span>`}
-    </div>
   </section>`;
 }).join("");
 
@@ -1442,10 +1454,6 @@ function showDay(idx){
 }
 
 btns.forEach((b,i) => b.addEventListener("click", () => showDay(i)));
-document.getElementById("itinerary").addEventListener("click", (e) => {
-  const btn = e.target.closest(".footnav-btn");
-  if(btn) showDay(parseInt(btn.dataset.idx,10));
-});
 showDay(0);
 
 // ---------- BOTTOM TAB BAR SWITCHING ----------
